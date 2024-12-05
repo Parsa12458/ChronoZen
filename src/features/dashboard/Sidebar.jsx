@@ -4,7 +4,7 @@ import Logo from "../../ui/Logo";
 function Sidebar() {
   return (
     <div className="row-start-1 row-end-6 bg-lightGreen">
-      <div className="flex items-center justify-center py-7">
+      <div className="flex items-center justify-center py-8">
         <Logo />
       </div>
       <div className="space-y-3 font-semibold">
