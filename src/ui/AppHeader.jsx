@@ -2,7 +2,7 @@ import CircleButton from "./CircleButton";
 
 function AppHeader() {
   return (
-    <div className="col-start-2 col-end-3 flex items-center gap-10 px-10 py-8 font-semibold">
+    <div className="col-start-2 col-end-3 flex items-center gap-10 px-12 py-8 font-semibold">
       <div>
         Good Afternoon, <span className="font-bold">Parsa!</span>
       </div>

@@ -37,3 +37,8 @@ input:-ms-input-autofill:active {
   background-color: #d2dfd4 !important;
   color: #000000 !important;
 }
+
+/* Disable chart focus style */
+.recharts-pie .recharts-layer {
+  pointer-events: none;
+}
