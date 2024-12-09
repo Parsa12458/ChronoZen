@@ -4,7 +4,7 @@ import Button from "../ui/Button";
 
 function DashboardPage() {
   return (
-    <div className="grid grid-cols-3 grid-rows-[max-content_max-content_max-content_max-content] gap-5 pb-12">
+    <div className="grid grid-cols-3 grid-rows-[max-content_max-content_max-content_max-content] gap-5">
       <h1 className="col-span-full text-2xl font-bold">Dashboard</h1>
       <DashboardSection title="Tasks for today" data="task" />
       <DashboardSection title="Habits for today" data="habit" />
