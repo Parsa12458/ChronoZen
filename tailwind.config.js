@@ -12,6 +12,8 @@ export default {
       darkGreen: "#202721",
       lightGreen: "#e2ece3",
       paleGreen: "#d2dfd4",
+      mintGreen: "#E2EDE7",
+      red: "#B82828",
       background: "#ecf3ed",
     },
   },
