@@ -42,3 +42,7 @@ input:-ms-input-autofill:active {
 .recharts-pie .recharts-layer {
   pointer-events: none;
 }
+
+.custom-checkbox {
+  @apply h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-primary bg-contain bg-center checked:bg-primary checked:bg-[url('/icons/tick-mark.svg')] focus:ring-0;
+}

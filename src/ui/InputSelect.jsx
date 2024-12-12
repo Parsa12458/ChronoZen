@@ -8,7 +8,7 @@ function InputSelect({ label, id, options }) {
       <select
         name={id}
         id={id}
-        className="h-full w-40 cursor-pointer appearance-none rounded border border-darkGreen bg-transparent py-2 pl-5 pr-10 outline-none"
+        className="h-full w-40 cursor-pointer appearance-none rounded border border-darkGreen bg-transparent py-2 pl-5 pr-10"
       >
         {options.map((option, i) => (
           <option value={toCamelCase(option)} key={i} className="bg-mintGreen">

@@ -16,11 +16,11 @@ function AppHeader() {
           <CircleButton>
             <img src="/icons/user.svg" alt="user icon" className="h-6 w-6" />
           </CircleButton>
-          <ul
-            tabIndex={0}
-            className="bg-mintGreen menu dropdown-content mr-3 mt-1 w-32 rounded p-1 drop-shadow-sm"
-          >
-            <li className="rounded transition duration-200 hover:bg-paleGreen">
+          <ul className="menu dropdown-content mr-3 mt-1 w-32 rounded bg-mintGreen p-1 drop-shadow-sm">
+            <li
+              className="rounded transition duration-200 hover:bg-paleGreen"
+              tabIndex={0}
+            >
               <span>
                 <img
                   src="/icons/user-edit.svg"
@@ -30,7 +30,10 @@ function AppHeader() {
                 <span>Edit</span>
               </span>
             </li>
-            <li className="rounded transition duration-200 hover:bg-paleGreen">
+            <li
+              className="rounded transition duration-200 hover:bg-paleGreen"
+              tabIndex={0}
+            >
               <span>
                 <img
                   src="/icons/logout.svg"
