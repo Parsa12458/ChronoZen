@@ -1,14 +1,22 @@
 import Button from "../../ui/Button";
 import InputSelect from "../../ui/InputSelect";
 import InputFilter from "../../ui/InputFilter";
+import Modal from "../../ui/Modal";
+import TaskForm from "./TaskForm";
 
 function TasksControls() {
   return (
-    <div className="mt-9 flex gap-3">
-      <Button variation="primary" additionalStyles="px-4  text-sm">
+    <div className="mt-8 flex gap-3">
+      <Button
+        variation="primary"
+        additionalStyles="px-4 text-sm"
+        onClick={() => document.getElementById("addTask").showModal()}
+      >
         <img src="/icons/add-white.svg" alt="add icon" className="mr-1.5 w-5" />
         <span>Add Task</span>
       </Button>
+      <Modal id="addTask" content={<TaskForm title="Add Task" />} />
+
       <Button
         variation="secondary"
         additionalStyles="px-4 text-sm text-darkGreen"

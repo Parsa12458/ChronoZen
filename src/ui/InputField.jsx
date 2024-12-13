@@ -1,4 +1,4 @@
-function InputField({ id, label, placeHolder, type = "text" }) {
+function InputField({ id, label, placeholder, type = "text" }) {
   return (
     <div className="flex flex-col text-left">
       <label htmlFor={id} className="mb-0.5 text-xs font-semibold">
@@ -7,8 +7,8 @@ function InputField({ id, label, placeHolder, type = "text" }) {
       <input
         type={type}
         id={id}
-        placeholder={placeHolder}
-        className="rounded border border-mediumGreen bg-lightGreen px-4 py-1.5 font-semibold placeholder:text-mediumGreen/60 autofill:bg-white focus:outline-0"
+        placeholder={placeholder}
+        className="rounded border border-mediumGreen bg-transparent px-3 py-1.5 text-sm font-medium placeholder:text-mediumGreen/60 autofill:bg-white focus:outline-0"
       />
     </div>
   );

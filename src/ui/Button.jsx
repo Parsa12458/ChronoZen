@@ -3,6 +3,7 @@ function Button({
   variation = "primary",
   type = "button",
   additionalStyles = "",
+  onClick = null,
 }) {
   const primaryStyles =
     "py-2 bg-primary text-white hover:bg-mediumGreen hover:shadow-md";
@@ -14,6 +15,7 @@ function Button({
     <button
       type={type}
       className={`${additionalStyles} ${variation === "primary" && primaryStyles} ${variation === "small" && smallStyles} ${variation === "secondary" && secondaryStyles} flex items-center justify-center rounded font-semibold transition-all duration-300`}
+      onClick={onClick}
     >
       {children}
     </button>
