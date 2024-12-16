@@ -2,6 +2,7 @@ import InputField from "../../ui/InputField";
 import InputSelect from "../../ui/InputSelect";
 import InputCheckbox from "../../ui/InputCheckbox";
 import InputTextarea from "../../ui/InputTextarea";
+import Button from "../../ui/Button";
 
 function TaskForm({ title }) {
   return (
@@ -53,6 +54,15 @@ function TaskForm({ title }) {
 
         <div className="mt-4 self-center">
           <InputCheckbox id="taskReminder" label="Turn on reminder" />
+        </div>
+
+        <div className="col-span-2 mt-7 flex justify-end gap-3 text-sm">
+          <Button type="button" additionalStyles="px-7" variation="secondary">
+            Cancel
+          </Button>
+          <Button type="submit" additionalStyles="px-7" variation="primary">
+            Submit
+          </Button>
         </div>
       </form>
     </div>
