@@ -1,7 +1,14 @@
 import { toCamelCase } from "../utils/helper";
 import WideLabel from "./WideLabel";
 
-function InputSelect({ label, id, options, labelType = "wide" }) {
+function InputSelect({
+  label,
+  id,
+  options,
+  labelType = "wide",
+  defaultValue = "",
+  disabled = false,
+}) {
   if (labelType === "wide")
     return (
       <div className="relative flex flex-col items-center justify-center gap-0.5 text-sm font-semibold">
@@ -9,13 +16,15 @@ function InputSelect({ label, id, options, labelType = "wide" }) {
         <select
           name={id}
           id={id}
-          className="h-full w-40 cursor-pointer appearance-none rounded border border-darkGreen bg-transparent py-2 pl-5 pr-10"
+          className={`h-full w-40 ${disabled ? "cursor-default" : "cursor-pointer"} appearance-none rounded border border-darkGreen bg-transparent py-2 pl-5 pr-10`}
+          disabled={disabled}
         >
           {options.map((option, i) => (
             <option
               value={toCamelCase(option)}
               key={i}
               className="bg-mintGreen"
+              selected={toCamelCase(option) === toCamelCase(defaultValue)}
             >
               {option}
             </option>
@@ -37,13 +46,15 @@ function InputSelect({ label, id, options, labelType = "wide" }) {
           <select
             name={id}
             id={id}
-            className="h-full w-full cursor-pointer appearance-none rounded border border-darkGreen bg-transparent py-1.5 pl-5 pr-10 text-sm"
+            className={`h-full w-full ${disabled ? "cursor-default" : "cursor-pointer"} appearance-none rounded border border-darkGreen bg-transparent py-1.5 pl-5 pr-10 text-sm`}
+            disabled={disabled}
           >
             {options.map((option, i) => (
               <option
                 value={toCamelCase(option)}
                 key={i}
                 className="bg-mintGreen"
+                selected={toCamelCase(option) === toCamelCase(defaultValue)}
               >
                 {option}
               </option>

@@ -42,7 +42,7 @@ function TaskForm({ title }) {
         <InputSelect
           id="taskRecurringFrequency"
           label="Recurring Frequency"
-          options={["None", "Daily", "Weekly", "Monthly"]}
+          options={["None", "Daily", "Weekly", "Monthly", "Yearly"]}
           labelType="normal"
         />
         <InputField

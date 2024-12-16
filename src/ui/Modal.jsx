@@ -1,7 +1,7 @@
 function Modal({ content, id }) {
   return (
     <dialog id={id} className="modal">
-      <div className="modal-box w-5/12 max-w-3xl bg-background px-16 pb-12 pt-10">
+      <div className="modal-box w-5/12 max-w-3xl bg-background px-16 py-10">
         {content}
         <form method="dialog">
           <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">

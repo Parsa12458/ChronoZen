@@ -1,46 +1,65 @@
 import React from "react";
 import Dropdown from "../../ui/Dropdown";
+import TaskDetail from "./TaskDetail";
+import Modal from "../../ui/Modal";
+import Badge from "../../ui/Badge";
 
 const renderTask = [
   {
-    id: 1,
+    taskId: 1,
     taskTitle: "Project Presentation",
-    taskDate: "2024/11/30",
+    taskDescription:
+      "Provide a clear and concise introduction to the project. try to explain the project’s goals, objectives, and significance. Summarize the research conducted and the planning process",
+    taskDate: "2024-11-30",
     taskTime: "19:00",
     taskCategory: "Work",
     taskPriority: "High",
+    taskRecurringFrequency: "none",
+    taskReminder: true,
   },
   {
-    id: 2,
+    taskId: 2,
     taskTitle: "Grocery Shopping",
-    taskDate: "2024/11/25",
+    taskDescription: "",
+    taskDate: "2024-11-25",
     taskTime: "18:00",
     taskCategory: "Personal",
     taskPriority: "Medium",
+    taskRecurringFrequency: "weekly",
+    taskReminder: false,
   },
   {
-    id: 3,
+    taskId: 3,
     taskTitle: "Fitness Session",
-    taskDate: "2024/11/26",
+    taskDescription: "",
+    taskDate: "2024-11-26",
     taskTime: "08:00",
     taskCategory: "Personal",
     taskPriority: "High",
+    taskRecurringFrequency: "daily",
+    taskReminder: false,
   },
   {
-    id: 4,
+    taskId: 4,
     taskTitle: "Client Meeting",
-    taskDate: "2024/11/27",
+    taskDescription: "",
+    taskDate: "2024-11-27",
     taskTime: "12:00",
     taskCategory: "Work",
     taskPriority: "High",
+    taskRecurringFrequency: "none",
+    taskReminder: true,
   },
   {
-    id: 5,
+    taskId: 5,
     taskTitle: "Read a Book",
-    taskDate: "2024/11/28",
+    taskDescription: "",
+    taskDate: "2024-11-28",
     taskTime: "22:00",
     taskCategory: "Personal",
     taskPriority: "Low",
+    taskRecurringFrequency: "daily",
+    taskReminder: false,
   },
 ];
 
@@ -58,7 +77,7 @@ function TasksList() {
       <div className="flex flex-col items-center justify-center gap-1.5">
         {renderTask.map((task) => (
           <div
-            key={task.id}
+            key={task.taskId}
             className="flex w-full items-center gap-4 rounded bg-lightGreen px-4 py-3 text-sm font-semibold"
           >
             <input type="checkbox" className="custom-checkbox" />
@@ -66,16 +85,17 @@ function TasksList() {
             <span className="flex-1">{task.taskDate}</span>
             <span className="flex-1">{task.taskTime}</span>
             <div className="flex-1">
-              <span
-                className={`badge rounded border-0 text-xs font-normal text-white ${task.taskCategory === "Work" && "bg-[#2D5562]"} ${task.taskCategory === "Personal" && "bg-[#AD5973]"}`}
+              <Badge
+                variation="solid"
+                backgroundColor={`${task.taskCategory === "Work" ? "#2D5562" : ""}${task.taskCategory === "Personal" ? "#AD5973" : ""}`}
               >
                 {task.taskCategory}
-              </span>
+              </Badge>
             </div>
             <div className="flex-1">
-              <span className="badge rounded border-2 border-primary bg-transparent text-xs font-normal">
+              <Badge variation="outlined" borderColor="#6f8779">
                 {task.taskPriority}
-              </span>
+              </Badge>
             </div>
             <Dropdown
               button={
@@ -89,14 +109,18 @@ function TasksList() {
                     className="rounded transition duration-200 hover:bg-paleGreen"
                     tabIndex={0}
                   >
-                    <span>
+                    <button
+                      onClick={() =>
+                        document.getElementById(task.taskId).showModal()
+                      }
+                    >
                       <img
                         src="/icons/detail.svg"
                         alt="user edit icon"
                         className="w-4"
                       />
                       <span>Task Detail</span>
-                    </span>
+                    </button>
                   </li>
                   <li
                     className="rounded transition duration-200 hover:bg-paleGreen"
@@ -125,6 +149,23 @@ function TasksList() {
                     </span>
                   </li>
                 </React.Fragment>
+              }
+            />
+            <Modal
+              id={task.taskId}
+              content={
+                <TaskDetail
+                  data={{
+                    taskTitle: task.taskTitle,
+                    taskCategory: task.taskCategory,
+                    taskPriority: task.taskPriority,
+                    taskDescription: task.taskDescription,
+                    taskDate: task.taskDate,
+                    taskTime: task.taskTime,
+                    taskRecurringFrequency: task.taskRecurringFrequency,
+                    taskReminder: task.taskReminder,
+                  }}
+                />
               }
             />
           </div>
