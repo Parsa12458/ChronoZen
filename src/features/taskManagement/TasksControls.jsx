@@ -3,6 +3,9 @@ import InputSelect from "../../ui/InputSelect";
 import InputFilter from "../../ui/InputFilter";
 import Modal from "../../ui/Modal";
 import TaskForm from "./TaskForm";
+import Dropdown from "../../ui/Dropdown";
+import InputField from "../../ui/InputField";
+import ColorPicker from "../../ui/ColorPicker";
 
 function TasksControls() {
   return (
@@ -17,17 +20,39 @@ function TasksControls() {
       </Button>
       <Modal id="addTask" content={<TaskForm title="Add Task" />} />
 
-      <Button
-        variation="secondary"
-        additionalStyles="px-4 text-sm text-darkGreen"
-      >
-        <img
-          src="/icons/add-darkgreen.svg"
-          alt="add icon"
-          className="mr-1.5 w-5"
-        />
-        <span>Add Category</span>
-      </Button>
+      <Dropdown
+        button={
+          <Button
+            variation="secondary"
+            additionalStyles="px-4 text-sm text-darkGreen h-full"
+          >
+            <img
+              src="/icons/add-darkgreen.svg"
+              alt="add icon"
+              className="mr-1.5 w-5"
+            />
+            <span>Add Category</span>
+          </Button>
+        }
+        content={
+          <li>
+            <form className="flex flex-col items-start justify-center">
+              <div className="flex gap-2">
+                <InputField placeholder="Enter Category" />
+                <Button
+                  type="submit"
+                  additionalStyles="px-4 h-[34px]"
+                  variation="primary"
+                >
+                  Add
+                </Button>
+              </div>
+              <ColorPicker />
+            </form>
+          </li>
+        }
+      />
+
       <InputSelect
         label="category"
         id="category"

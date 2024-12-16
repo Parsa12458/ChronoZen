@@ -1,9 +1,11 @@
 function InputField({ id, label, placeholder, type = "text" }) {
   return (
     <div className="flex flex-col text-left">
-      <label htmlFor={id} className="mb-0.5 text-xs font-semibold">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={id} className="mb-0.5 text-xs font-semibold">
+          {label}
+        </label>
+      )}
       <input
         type={type}
         id={id}

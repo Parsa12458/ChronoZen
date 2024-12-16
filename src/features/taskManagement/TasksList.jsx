@@ -1,3 +1,6 @@
+import React from "react";
+import Dropdown from "../../ui/Dropdown";
+
 const renderTask = [
   {
     id: 1,
@@ -74,52 +77,56 @@ function TasksList() {
                 {task.taskPriority}
               </span>
             </div>
-            <div className="dropdown dropdown-end ml-auto">
-              <button>
-                <img src="/icons/three-dots.svg" alt="three dot icon" />
-              </button>
-              <ul className="menu dropdown-content z-10 mr-4 w-36 rounded bg-mintGreen p-1 drop-shadow-sm">
-                <li
-                  className="rounded transition duration-200 hover:bg-paleGreen"
-                  tabIndex={0}
-                >
-                  <span>
-                    <img
-                      src="/icons/detail.svg"
-                      alt="user edit icon"
-                      className="w-4"
-                    />
-                    <span>Task Detail</span>
-                  </span>
-                </li>
-                <li
-                  className="rounded transition duration-200 hover:bg-paleGreen"
-                  tabIndex={0}
-                >
-                  <span>
-                    <img
-                      src="/icons/edit.svg"
-                      alt="user edit icon"
-                      className="w-4"
-                    />
-                    <span>Edit</span>
-                  </span>
-                </li>
-                <li
-                  className="rounded transition duration-200 hover:bg-paleGreen"
-                  tabIndex={0}
-                >
-                  <span>
-                    <img
-                      src="/icons/remove.svg"
-                      alt="user edit icon"
-                      className="w-5"
-                    />
-                    <span className="text-red">Remove</span>
-                  </span>
-                </li>
-              </ul>
-            </div>
+            <Dropdown
+              button={
+                <button>
+                  <img src="/icons/three-dots.svg" alt="three dot icon" />
+                </button>
+              }
+              content={
+                <React.Fragment>
+                  <li
+                    className="rounded transition duration-200 hover:bg-paleGreen"
+                    tabIndex={0}
+                  >
+                    <span>
+                      <img
+                        src="/icons/detail.svg"
+                        alt="user edit icon"
+                        className="w-4"
+                      />
+                      <span>Task Detail</span>
+                    </span>
+                  </li>
+                  <li
+                    className="rounded transition duration-200 hover:bg-paleGreen"
+                    tabIndex={0}
+                  >
+                    <span>
+                      <img
+                        src="/icons/edit.svg"
+                        alt="user edit icon"
+                        className="w-4"
+                      />
+                      <span>Edit</span>
+                    </span>
+                  </li>
+                  <li
+                    className="rounded transition duration-200 hover:bg-paleGreen"
+                    tabIndex={0}
+                  >
+                    <span>
+                      <img
+                        src="/icons/remove.svg"
+                        alt="user edit icon"
+                        className="w-5"
+                      />
+                      <span className="text-red">Remove</span>
+                    </span>
+                  </li>
+                </React.Fragment>
+              }
+            />
           </div>
         ))}
       </div>
