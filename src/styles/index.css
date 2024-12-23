@@ -43,6 +43,122 @@ input:-ms-input-autofill:active {
   pointer-events: none;
 }
 
+/* Custom checkbox styles */
 .custom-checkbox {
   @apply h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-primary bg-contain bg-center checked:bg-primary checked:bg-[url('/icons/tick-mark.svg')] focus:ring-0 disabled:cursor-default disabled:opacity-80;
+}
+
+/* Calendar styles for habit tracker section */
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.react-calendar {
+  @apply w-full rounded border bg-transparent pt-2 font-semibold;
+}
+
+.react-calendar__viewContainer {
+  @apply p-4 pt-0;
+}
+
+.react-calendar button {
+  @apply m-0 border-0 outline-none;
+}
+
+.react-calendar button:enabled:hover {
+  @apply cursor-pointer;
+}
+
+.react-calendar__navigation {
+  @apply mb-2 flex px-2;
+}
+
+.react-calendar__navigation__label {
+  @apply w-28;
+}
+
+.react-calendar__navigation button {
+  @apply rounded transition-all duration-300;
+}
+
+.react-calendar__navigation button.react-calendar__navigation__arrow {
+  @apply h-10 min-w-10 outline-none;
+}
+
+.react-calendar__navigation button:enabled:hover {
+  @apply bg-lightGreen;
+}
+
+.react-calendar__month-view__weekdays {
+  font-size: 0.75em;
+  @apply text-center font-bold uppercase;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  @apply mb-2;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  @apply text-red;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth,
+.react-calendar__decade-view__years__year--neighboringDecade,
+.react-calendar__century-view__decades__decade--neighboringCentury {
+  @apply invisible !transition-none;
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+  padding: 2em 0.5em;
+}
+
+.react-calendar__month-view__days {
+  @apply !grid grid-cols-7 gap-1;
+}
+
+.react-calendar__tile {
+  @apply rounded bg-paleGreen text-center transition-all duration-300;
+  width: 37px;
+  height: 36px;
+  font-size: 0.833em;
+}
+
+.react-calendar__tile:enabled:hover {
+  background-color: #bacabc;
+}
+
+.react-calendar__tile--now {
+  @apply !bg-mediumGreen !text-white;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  @apply bg-mediumGreen text-white;
+}
+
+.react-calendar__tile--active {
+  @apply bg-primary text-white;
+}
+
+.react-calendar__tile--active:enabled:hover {
+  @apply bg-primary;
+}
+
+.react-calendar__year-view__months,
+.react-calendar__decade-view__years,
+.react-calendar__century-view__decades {
+  @apply !grid grid-cols-3 gap-1;
+}
+
+.react-calendar__year-view__months__month,
+.react-calendar__decade-view__years__year,
+.react-calendar__century-view__decades__decade {
+  @apply flex w-full items-center justify-center;
 }

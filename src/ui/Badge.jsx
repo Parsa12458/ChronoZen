@@ -2,7 +2,7 @@ import { getContrastingTextColor } from "../utils/helper";
 
 function Badge({
   children,
-  variation,
+  variation = "solid",
   backgroundColor,
   borderColor,
   additionalStyles,

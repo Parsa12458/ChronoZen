@@ -14,7 +14,7 @@ function InputCheckbox({
         disabled={disabled}
         defaultChecked={defaultChecked}
       />
-      <label htmlFor={id}>{label}</label>
+      {label && <label htmlFor={id}>{label}</label>}
     </div>
   );
 }
