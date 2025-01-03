@@ -10,15 +10,21 @@ import ColorPicker from "../../ui/ColorPicker";
 function HabitsControls() {
   return (
     <div className="mt-8 flex gap-3">
-      <Button
-        variation="primary"
-        additionalStyles="px-4 text-sm"
-        onClick={() => document.getElementById("addHabit").showModal()}
-      >
-        <img src="/icons/add-white.svg" alt="add icon" className="mr-1.5 w-5" />
-        <span>Add Habit</span>
-      </Button>
-      <Modal id="addHabit" content={<HabitForm title="Add Habit" />} />
+      <Modal>
+        <Modal.Open opens="addHabit">
+          <Button variation="primary" additionalStyles="px-4 text-sm">
+            <img
+              src="/icons/add-white.svg"
+              alt="add icon"
+              className="mr-1.5 w-5"
+            />
+            <span>Add Habit</span>
+          </Button>
+        </Modal.Open>
+        <Modal.Window name="addHabit">
+          <HabitForm title="Add Habit" />
+        </Modal.Window>
+      </Modal>
 
       <Dropdown
         button={

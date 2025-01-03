@@ -18,7 +18,7 @@ function TaskDetail({ data }) {
   } = data;
 
   return (
-    <div>
+    <div className="max-w-xl">
       <div className="mb-7 flex items-center gap-3">
         <h2 className="text-2xl font-bold">Task: {taskTitle}</h2>
         <Badge

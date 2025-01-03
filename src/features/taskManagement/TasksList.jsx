@@ -109,18 +109,32 @@ function TasksList() {
                     className="rounded transition duration-200 hover:bg-paleGreen"
                     tabIndex={0}
                   >
-                    <button
-                      onClick={() =>
-                        document.getElementById(task.taskId).showModal()
-                      }
-                    >
-                      <img
-                        src="/icons/detail.svg"
-                        alt="user edit icon"
-                        className="w-4"
-                      />
-                      <span>Task Detail</span>
-                    </button>
+                    <Modal>
+                      <Modal.Open opens="addTask">
+                        <button>
+                          <img
+                            src="/icons/detail.svg"
+                            alt="user edit icon"
+                            className="w-4"
+                          />
+                          <span>Task Detail</span>
+                        </button>
+                      </Modal.Open>
+                      <Modal.Window name="addTask">
+                        <TaskDetail
+                          data={{
+                            taskTitle: task.taskTitle,
+                            taskCategory: task.taskCategory,
+                            taskPriority: task.taskPriority,
+                            taskDescription: task.taskDescription,
+                            taskDate: task.taskDate,
+                            taskTime: task.taskTime,
+                            taskRecurringFrequency: task.taskRecurringFrequency,
+                            taskReminder: task.taskReminder,
+                          }}
+                        />
+                      </Modal.Window>
+                    </Modal>
                   </li>
                   <li
                     className="rounded transition duration-200 hover:bg-paleGreen"
@@ -149,23 +163,6 @@ function TasksList() {
                     </span>
                   </li>
                 </React.Fragment>
-              }
-            />
-            <Modal
-              id={task.taskId}
-              content={
-                <TaskDetail
-                  data={{
-                    taskTitle: task.taskTitle,
-                    taskCategory: task.taskCategory,
-                    taskPriority: task.taskPriority,
-                    taskDescription: task.taskDescription,
-                    taskDate: task.taskDate,
-                    taskTime: task.taskTime,
-                    taskRecurringFrequency: task.taskRecurringFrequency,
-                    taskReminder: task.taskReminder,
-                  }}
-                />
               }
             />
           </div>

@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 const position = [35.83266, 50.99155];
 function EventMap() {
   return (
-    <div className="min-h-full w-full overflow-hidden rounded">
+    <div className="min-h-full w-full min-w-96 overflow-hidden rounded">
       <MapContainer
         center={position}
         zoom={13}

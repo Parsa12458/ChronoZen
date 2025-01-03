@@ -10,20 +10,21 @@ import EventForm from "./EventForm";
 function EventsControls() {
   return (
     <div className="mt-8 flex gap-3">
-      <Button
-        variation="primary"
-        additionalStyles="px-4 text-sm"
-        onClick={() => document.getElementById("addTask").showModal()}
-      >
-        <img src="/icons/add-white.svg" alt="add icon" className="mr-1.5 w-5" />
-        <span>Add Event</span>
-      </Button>
-      <Modal
-        id="addTask"
-        content={<EventForm title="Add Event" />}
-        width="full"
-        maxWidth="4xl"
-      />
+      <Modal>
+        <Modal.Open opens="addEvent">
+          <Button variation="primary" additionalStyles="px-4 text-sm">
+            <img
+              src="/icons/add-white.svg"
+              alt="add icon"
+              className="mr-1.5 w-5"
+            />
+            <span>Add Event</span>
+          </Button>
+        </Modal.Open>
+        <Modal.Window name="addEvent">
+          <EventForm title="Add Event" />
+        </Modal.Window>
+      </Modal>
 
       <Dropdown
         button={
