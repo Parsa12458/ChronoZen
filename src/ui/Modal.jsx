@@ -31,6 +31,7 @@ function Modal({ children }) {
       setTransitionClass(
         "opacity-0 transition-opacity duration-200 ease-[cubic-bezier(0,0,0.2,1)]",
       );
+      document.body.style.overflow = "visible";
     }
   }, [openName]);
 
