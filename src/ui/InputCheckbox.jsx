@@ -3,14 +3,16 @@ function InputCheckbox({
   label,
   disabled = false,
   defaultChecked = false,
+  size,
+  labelSize = "sm",
 }) {
   return (
-    <div className="flex items-center gap-2 text-sm">
+    <div className={`flex gap-2 text-${labelSize}`}>
       <input
         type="checkbox"
         name={id}
         id={id}
-        className="custom-checkbox"
+        className={`custom-checkbox ${size ? `!h-${size} !w-${size}` : "h-5 w-5"}`}
         disabled={disabled}
         defaultChecked={defaultChecked}
       />

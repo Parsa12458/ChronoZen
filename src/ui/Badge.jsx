@@ -15,7 +15,7 @@ function Badge({
         borderColor: borderColor || "transparent",
         color:
           variation === "solid"
-            ? getContrastingTextColor(backgroundColor)
+            ? getContrastingTextColor(backgroundColor || "")
             : "#202721",
       }}
     >

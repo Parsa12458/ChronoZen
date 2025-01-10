@@ -17,5 +17,5 @@ export function getContrastingTextColor(hex) {
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
 
   // Return black for light backgrounds and white for dark backgrounds
-  return luminance > 0.5 ? "#000000" : "#FFFFFF";
+  return luminance > 0.55 ? "#000000" : "#FFFFFF";
 }
