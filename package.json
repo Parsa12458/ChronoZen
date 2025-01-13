@@ -15,6 +15,7 @@
     "@vitejs/plugin-legacy": "^6.0.0",
     "leaflet": "^1.9.4",
     "preact": "^10.25.0",
+    "quill": "^2.0.3",
     "react": "19.0.0",
     "react-calendar": "^5.1.0",
     "react-dom": "19.0.0",

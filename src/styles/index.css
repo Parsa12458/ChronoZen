@@ -259,3 +259,12 @@ input:-ms-input-autofill:active {
 .events-calendar .react-calendar__century-view__decades__decade {
   @apply flex w-full items-center justify-center;
 }
+
+/* Rich text editor styles */
+.ql-container,
+.ql-toolbar {
+  font-family: "Nunito", sans-serif !important;
+}
+.ql-container .ql-editor * * {
+  @apply rounded p-0.5;
+}
