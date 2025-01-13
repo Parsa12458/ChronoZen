@@ -3,7 +3,7 @@ import InputCheckbox from "../../ui/InputCheckbox";
 import InputField from "../../ui/InputField";
 import InputSelect from "../../ui/InputSelect";
 
-function HabitForm({ title }) {
+function HabitForm({ title, onCloseModal }) {
   return (
     <div>
       <h2 className="mb-7 text-2xl font-bold">{title}</h2>
@@ -38,7 +38,12 @@ function HabitForm({ title }) {
         </div>
 
         <div className="col-span-2 mt-7 flex justify-end gap-3 text-sm">
-          <Button type="button" additionalStyles="px-7" variation="secondary">
+          <Button
+            type="button"
+            additionalStyles="px-7"
+            variation="secondary"
+            onClick={() => onCloseModal?.()}
+          >
             Cancel
           </Button>
           <Button type="submit" additionalStyles="px-7" variation="primary">

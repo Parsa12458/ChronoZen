@@ -85,7 +85,7 @@ function Window({ children, name }) {
         >
           ✕
         </button>
-        <div>{children}</div>
+        <div>{cloneElement(children, { onCloseModal: close })}</div>
       </div>
     </div>,
     document.body,
