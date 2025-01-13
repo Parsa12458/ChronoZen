@@ -1,6 +1,8 @@
 import React from "react";
 import CircleButton from "./CircleButton";
 import Dropdown from "./Dropdown";
+import Modal from "./Modal";
+import EditAccountForm from "../features/authentication/EditAccountForm";
 
 function AppHeader() {
   return (
@@ -22,19 +24,26 @@ function AppHeader() {
           }
           content={
             <React.Fragment>
-              <li
-                className="rounded transition duration-200 hover:bg-paleGreen"
-                tabIndex={0}
-              >
-                <span>
-                  <img
-                    src="/icons/user-edit.svg"
-                    alt="user edit icon"
-                    className="w-5"
-                  />
-                  <span>Edit</span>
-                </span>
-              </li>
+              <Modal>
+                <Modal.Open opens="editAccount">
+                  <li
+                    className="rounded transition duration-200 hover:bg-paleGreen"
+                    tabIndex={0}
+                  >
+                    <span>
+                      <img
+                        src="/icons/user-edit.svg"
+                        alt="user edit icon"
+                        className="w-5"
+                      />
+                      <span>Edit</span>
+                    </span>
+                  </li>
+                </Modal.Open>
+                <Modal.Window name="editAccount">
+                  <EditAccountForm />
+                </Modal.Window>
+              </Modal>
               <li
                 className="rounded transition duration-200 hover:bg-paleGreen"
                 tabIndex={0}
