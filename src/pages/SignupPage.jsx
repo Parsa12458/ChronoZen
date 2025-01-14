@@ -2,8 +2,19 @@ import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import Header from "../ui/Header";
 import InputField from "../ui/InputField";
+import { useForm } from "react-hook-form";
 
 function SignupPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  function onSubmit(data) {
+    console.log(data);
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -18,24 +29,39 @@ function SignupPage() {
             />
             <span>Signup with Google</span>
           </button>
-          <form className="mt-7 flex flex-col items-stretch space-y-5">
+          <form
+            className="mt-7 flex flex-col items-stretch space-y-5"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <InputField
               id="name"
               label="Full Name"
               placeHolder="Enter your full name"
               type="text"
+              register={register}
+              validationRules={{ required: "Full name is required" }}
             />
             <InputField
               id="email"
               label="Email Address"
               placeHolder="example@gmail.com"
               type="email"
+              register={register}
+              validationRules={{
+                required: "Email address is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                  message: "Invalid email address",
+                },
+              }}
             />
             <InputField
               id="password"
               label="Password"
               placeHolder="Enter your password"
               type="password"
+              register={register}
+              validationRules={{ required: "Password is required" }}
             />
             <Button type="submit" variation="primary" additionalStyles="!mt-8">
               Start your journey!
