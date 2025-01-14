@@ -3,16 +3,20 @@ import Button from "../ui/Button";
 import Header from "../ui/Header";
 import InputField from "../ui/InputField";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 function SignupPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   function onSubmit(data) {
     console.log(data);
+  }
+
+  function onError(errors) {
+    toast.dismiss();
+    Object.keys(errors).forEach((key) => {
+      toast.error(errors[key].message);
+    });
   }
 
   return (
@@ -31,7 +35,7 @@ function SignupPage() {
           </button>
           <form
             className="mt-7 flex flex-col items-stretch space-y-5"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit, onError)}
           >
             <InputField
               id="name"
@@ -61,7 +65,13 @@ function SignupPage() {
               placeHolder="Enter your password"
               type="password"
               register={register}
-              validationRules={{ required: "Password is required" }}
+              validationRules={{
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+              }}
             />
             <Button type="submit" variation="primary" additionalStyles="!mt-8">
               Start your journey!

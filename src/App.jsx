@@ -9,10 +9,19 @@ import HabitsPage from "./pages/HabitsPage";
 import EventsPage from "./pages/EventsPage";
 import GoalsPage from "./pages/GoalsPage";
 import NotesPage from "./pages/NotesPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <BrowserRouter>
+      <Toaster
+        position="top-center"
+        reverseOrder={true}
+        containerClassName="mt-2"
+        toastOptions={{
+          className: "!px-4 font-medium !max-w-full",
+        }}
+      />
       <Routes>
         <Route path="/" element={<Navigate to="/signup" />} index />
         <Route path="/signup" element={<SignupPage />} />
