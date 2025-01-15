@@ -10,32 +10,39 @@ import EventsPage from "./pages/EventsPage";
 import GoalsPage from "./pages/GoalsPage";
 import NotesPage from "./pages/NotesPage";
 import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <BrowserRouter>
-      <Toaster
-        position="top-center"
-        reverseOrder={true}
-        containerClassName="mt-2"
-        toastOptions={{
-          className: "!px-4 font-medium !max-w-full",
-        }}
-      />
-      <Routes>
-        <Route path="/" element={<Navigate to="/signup" />} index />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route element={<AppLayout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/tasks" element={<TasksPage />} />
-          <Route path="/habits" element={<HabitsPage />} />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/goals" element={<GoalsPage />} />
-          <Route path="/notes" element={<NotesPage />} />
-        </Route>
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster
+          position="top-center"
+          reverseOrder={true}
+          containerClassName="mt-2"
+          toastOptions={{
+            className: "!px-4 font-medium !max-w-full",
+          }}
+        />
+        <Routes>
+          <Route path="/" element={<Navigate to="/signup" />} index />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route element={<AppLayout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/tasks" element={<TasksPage />} />
+            <Route path="/habits" element={<HabitsPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/goals" element={<GoalsPage />} />
+            <Route path="/notes" element={<NotesPage />} />
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }
