@@ -68,7 +68,12 @@ function SignupForm() {
               },
             }}
           />
-          <Button type="submit" variation="primary" additionalStyles="!mt-8">
+          <Button
+            type="submit"
+            variation="primary"
+            additionalStyles={"!mt-8"}
+            isLoading={isLoading}
+          >
             Start your journey!
           </Button>
         </form>
