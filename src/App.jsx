@@ -12,6 +12,7 @@ import NotesPage from "./pages/NotesPage";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -29,10 +30,31 @@ function App() {
           }}
         />
         <Routes>
-          <Route path="/" element={<Navigate to="/signup" />} index />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route element={<AppLayout />}>
+          <Route
+            path="/signup"
+            element={
+              <ProtectedRoute navigateUrl="/dashboard">
+                <SignupPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <ProtectedRoute navigateUrl="/dashboard">
+                <LoginPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/tasks" element={<TasksPage />} />
             <Route path="/habits" element={<HabitsPage />} />
