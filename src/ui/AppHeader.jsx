@@ -3,8 +3,11 @@ import CircleButton from "./CircleButton";
 import Dropdown from "./Dropdown";
 import Modal from "./Modal";
 import EditAccountForm from "../features/authentication/EditAccountForm";
+import { useLogout } from "../features/authentication/useLogout";
 
 function AppHeader() {
+  const { logout, isLoading } = useLogout();
+
   return (
     <div className="col-start-2 col-end-3 flex items-center gap-10 px-12 py-8 font-semibold">
       <div>
@@ -48,14 +51,18 @@ function AppHeader() {
                 className="rounded transition duration-200 hover:bg-paleGreen"
                 tabIndex={0}
               >
-                <span>
+                <button
+                  onClick={logout}
+                  className="disabled:cursor-not-allowed disabled:opacity-80"
+                  disabled={isLoading}
+                >
                   <img
                     src="/icons/logout.svg"
                     alt="user edit icon"
                     className="w-5"
                   />
                   <span className="text-red">Logout</span>
-                </span>
+                </button>
               </li>
             </React.Fragment>
           }

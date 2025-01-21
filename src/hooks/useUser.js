@@ -9,6 +9,7 @@ export function useUser() {
   } = useQuery({
     queryKey: ["user"],
     queryFn: getCurrentUser,
+    refetchOnWindowFocus: false,
   });
 
   return {
