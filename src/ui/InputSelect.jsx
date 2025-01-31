@@ -8,16 +8,21 @@ function InputSelect({
   labelType = "wide",
   defaultValue = "",
   disabled = false,
+  register,
+  validationRules = {},
 }) {
   if (labelType === "wide")
     return (
-      <div className="relative flex flex-col items-center justify-center gap-0.5 text-sm font-semibold">
+      <div
+        className={`relative flex flex-col items-center justify-center gap-0.5 text-sm font-semibold ${disabled ? "opacity-50" : ""}`}
+      >
         <WideLabel id={id}>{label}</WideLabel>
         <select
           name={id}
           id={id}
           className={`h-full w-40 ${disabled ? "cursor-default" : "cursor-pointer"} appearance-none rounded border border-darkGreen bg-transparent py-2 pl-5 pr-10`}
           disabled={disabled}
+          {...(register && register(id, validationRules))}
         >
           {options.map((option, i) => (
             <option
@@ -48,6 +53,7 @@ function InputSelect({
             id={id}
             className={`h-full w-full ${disabled ? "cursor-default" : "cursor-pointer"} appearance-none rounded border border-darkGreen bg-transparent py-1.5 pl-5 pr-10 text-sm`}
             disabled={disabled}
+            {...(register && register(id, validationRules))}
           >
             {options.map((option, i) => (
               <option

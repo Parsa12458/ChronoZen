@@ -4,6 +4,8 @@ function InputTextarea({
   id,
   defaultValue = "",
   disabled = false,
+  register,
+  validationRules = {},
 }) {
   if (!disabled)
     return (
@@ -17,6 +19,7 @@ function InputTextarea({
           className="h-[34px] rounded border border-mediumGreen bg-transparent px-3 py-1.5 text-sm font-medium placeholder:text-mediumGreen/60 autofill:bg-white focus:outline-0"
           disabled={disabled}
           defaultValue={defaultValue}
+          {...(register && register(id, validationRules))}
         />
       </div>
     );

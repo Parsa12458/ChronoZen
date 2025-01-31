@@ -19,3 +19,20 @@ export function getContrastingTextColor(hex) {
   // Return black for light backgrounds and white for dark backgrounds
   return luminance > 0.55 ? "#000000" : "#FFFFFF";
 }
+
+export function formatDate(dateString) {
+  const date = new Date(dateString);
+  const userLocale = navigator.language || "en-US";
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Intl.DateTimeFormat(userLocale, options).format(date);
+}
+
+export function formatTime(timeString) {
+  const [hours, minutes] = timeString.split(":");
+  const date = new Date();
+  date.setHours(hours, minutes);
+  const userLocale = navigator.language || "en-US";
+
+  const options = { hour: "numeric", minute: "numeric", hour12: true };
+  return new Intl.DateTimeFormat(userLocale, options).format(date);
+}

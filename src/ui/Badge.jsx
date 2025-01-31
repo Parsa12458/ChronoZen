@@ -9,7 +9,7 @@ function Badge({
 }) {
   return (
     <span
-      className={`badge rounded text-xs font-semibold ${additionalStyles} ${variation === "solid" ? "border-0" : ""} ${variation === "outlined" ? "border-2" : ""}`}
+      className={`badge rounded text-xs font-semibold capitalize ${additionalStyles} ${variation === "solid" ? "border-0" : ""} ${variation === "outlined" ? "border-2" : ""}`}
       style={{
         backgroundColor: backgroundColor || "transparent",
         borderColor: borderColor || "transparent",

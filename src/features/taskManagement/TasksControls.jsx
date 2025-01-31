@@ -6,8 +6,14 @@ import TaskForm from "./TaskForm";
 import Dropdown from "../../ui/Dropdown";
 import InputField from "../../ui/InputField";
 import ColorPicker from "../../ui/ColorPicker";
+import { useTasksCategories } from "./useTasksCategories";
+import toast from "react-hot-toast";
 
 function TasksControls() {
+  const { tasksCategories = [], isLoading, error } = useTasksCategories();
+
+  if (error) toast.error(error.message);
+
   return (
     <div className="mt-8 flex gap-3">
       <Modal>
@@ -62,7 +68,14 @@ function TasksControls() {
       <InputSelect
         label="category"
         id="category"
-        options={["All Categories", "Work", "Personal"]}
+        options={
+          isLoading
+            ? ["Loading..."]
+            : tasksCategories.length === 0
+              ? ["All"]
+              : tasksCategories?.map((category) => category.name).reverse()
+        }
+        disabled={isLoading}
       />
       <InputFilter
         label="priority"

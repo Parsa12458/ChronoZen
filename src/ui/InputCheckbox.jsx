@@ -5,6 +5,9 @@ function InputCheckbox({
   defaultChecked = false,
   size,
   labelSize = "sm",
+  register,
+  validationRules = {},
+  onChange,
 }) {
   return (
     <div className={`flex gap-2 text-${labelSize}`}>
@@ -15,6 +18,8 @@ function InputCheckbox({
         className={`custom-checkbox ${size ? `!h-${size} !w-${size}` : "h-5 w-5"}`}
         disabled={disabled}
         defaultChecked={defaultChecked}
+        onChange={() => onChange?.()}
+        {...(register && register(id, validationRules))}
       />
       {label && <label htmlFor={id}>{label}</label>}
     </div>
