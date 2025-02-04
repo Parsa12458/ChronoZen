@@ -1,71 +1,21 @@
-import {
-  cloneElement,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { cloneElement } from "react";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { createPortal } from "react-dom";
-
-const ModalContext = createContext();
+import { useModal } from "../contexts/ModalContext";
 
 function Modal({ children }) {
-  const [openName, setOpenName] = useState("");
-  const [show, setShow] = useState(false);
-  const [transitionClass, setTransitionClass] = useState("");
-
-  const close = () => setOpenName("");
-  const open = (name) => setOpenName(name);
-
-  useEffect(() => {
-    if (openName) {
-      document.body.style.overflow = "hidden";
-      setShow(true);
-      setTimeout(() => {
-        setTransitionClass(
-          "opacity-100 transition-opacity duration-200 ease-[cubic-bezier(0,0,0.2,1)]",
-        );
-      }, 10);
-    } else {
-      setTransitionClass(
-        "opacity-0 transition-opacity duration-200 ease-[cubic-bezier(0,0,0.2,1)]",
-      );
-      document.body.style.overflow = "visible";
-    }
-  }, [openName]);
-
-  const handleTransitionEnd = () => {
-    if (!openName) {
-      setShow(false);
-    }
-  };
-
-  return (
-    <ModalContext.Provider
-      value={{
-        openName,
-        close,
-        open,
-        show,
-        transitionClass,
-        handleTransitionEnd,
-      }}
-    >
-      {children}
-    </ModalContext.Provider>
-  );
+  return children;
 }
 
 function Open({ children, opens: opensWindowName }) {
-  const { open } = useContext(ModalContext);
+  const { open } = useModal();
 
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
 
 function Window({ children, name }) {
   const { openName, close, show, transitionClass, handleTransitionEnd } =
-    useContext(ModalContext);
+    useModal();
   const ref = useOutsideClick(close);
 
   if (name !== openName) return null;

@@ -7,7 +7,6 @@ function TasksList() {
   const { tasks, isLoading, error } = useTasks();
 
   if (error) toast.error(error.message);
-  // TODO: fix the modal that opens one on another one, so first close the first one and then open the second one.
 
   return (
     <div className="mt-8">
