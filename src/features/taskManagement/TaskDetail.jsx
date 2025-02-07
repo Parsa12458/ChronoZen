@@ -82,7 +82,7 @@ function TaskDetail({ data }) {
             id="reminder"
             label="Turn on reminder"
             disabled={true}
-            defaultChecked={reminder}
+            checked={reminder}
           />
         </div>
 
@@ -110,7 +110,11 @@ function TaskDetail({ data }) {
               </Button>
             </Modal.Open>
             <Modal.Window name={`Edit:${id}`}>
-              <TaskForm title={`Edit ${title}`} task={data} />
+              <TaskForm
+                title={`Edit ${title}`}
+                task={data}
+                taskOperation="edit"
+              />
             </Modal.Window>
           </Modal>
         </div>

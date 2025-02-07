@@ -2,7 +2,7 @@ function InputCheckbox({
   id,
   label,
   disabled = false,
-  defaultChecked = false,
+  checked = null,
   size,
   labelSize = "sm",
   register,
@@ -17,7 +17,7 @@ function InputCheckbox({
         id={id}
         className={`custom-checkbox ${size ? `!h-${size} !w-${size}` : "h-5 w-5"}`}
         disabled={disabled}
-        defaultChecked={defaultChecked}
+        checked={checked}
         onChange={() => onChange?.()}
         {...(register && register(id, validationRules))}
       />

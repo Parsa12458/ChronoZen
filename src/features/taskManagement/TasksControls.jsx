@@ -28,7 +28,7 @@ function TasksControls() {
           </Button>
         </Modal.Open>
         <Modal.Window name="addTask">
-          <TaskForm title="Add Task" />
+          <TaskForm title="Add Task" taskOperation="add" />
         </Modal.Window>
       </Modal>
 

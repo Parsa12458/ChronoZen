@@ -33,3 +33,14 @@ export async function deleteTask(id) {
 
   if (error) throw new Error(error.message);
 }
+
+export async function addTask(newTask) {
+  const { data, error } = await supabase
+    .from("tasks")
+    .insert([newTask])
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

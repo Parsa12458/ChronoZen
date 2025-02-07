@@ -21,7 +21,7 @@ function TaskItem({ task }) {
       {!isChecking ? (
         <InputCheckbox
           id={task.id}
-          defaultChecked={task.checked}
+          checked={task.checked}
           onChange={() => {
             checkTask({ ...task, checked: !task.checked });
           }}
@@ -104,7 +104,11 @@ function TaskItem({ task }) {
                   </button>
                 </Modal.Open>
                 <Modal.Window name={`Edit:${task.id}`}>
-                  <TaskForm title={`Edit ${task.title}`} task={task} />
+                  <TaskForm
+                    title={`Edit ${task.title}`}
+                    task={task}
+                    taskOperation="edit"
+                  />
                 </Modal.Window>
               </Modal>
             </li>

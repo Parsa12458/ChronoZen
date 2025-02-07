@@ -7,8 +7,11 @@ import { useForm } from "react-hook-form";
 import { toCamelCase } from "../../utils/helper";
 import { useEditTask } from "./useEditTask";
 import { useTasksCategories } from "./useTasksCategories";
+import { useAddTask } from "./useAddTask";
+import toast from "react-hot-toast";
 
-function TaskForm({ title, onCloseModal, task }) {
+function TaskForm({ title, taskOperation, onCloseModal, task }) {
+  // TODO: implement adding task
   const { handleSubmit, register } = useForm({
     defaultValues: {
       title: task?.title || "",
@@ -22,14 +25,25 @@ function TaskForm({ title, onCloseModal, task }) {
     },
   });
   const { tasksCategories } = useTasksCategories();
-  const { editTask, isLoading } = useEditTask();
+  const { editTask, isEditing } = useEditTask();
+  const { addTask, isAdding } = useAddTask();
+
+  function onError(errors) {
+    toast.dismiss();
+    Object.keys(errors).forEach((key) => {
+      toast.error(errors[key].message);
+    });
+  }
 
   function onSubmit(data) {
     const selectedCategory = tasksCategories.find(
       (category) => toCamelCase(category.name) === data.category,
     );
-    const updatedData = { ...data, id: task.id, category: selectedCategory };
-    editTask(updatedData);
+    const editData = { ...data, id: task?.id, category: selectedCategory };
+    const addData = { ...data, category: selectedCategory, checked: false };
+    console.log(addData);
+    if (taskOperation === "edit") editTask(editData);
+    if (taskOperation === "add") addTask(addData);
     onCloseModal?.();
   }
 
@@ -38,14 +52,15 @@ function TaskForm({ title, onCloseModal, task }) {
       <h2 className="mb-7 text-2xl font-bold">{title}</h2>
       <form
         className="grid grid-cols-2 items-start gap-x-10 gap-y-4"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit, onError)}
       >
         <InputField
           id="title"
-          label="Task Title"
+          label="Task Title*"
           placeholder="Enter task title"
           type="text"
           register={register ? register : false}
+          validationRules={{ required: "Task title is required" }}
         />
         <InputSelect
           id="priority"
@@ -111,7 +126,7 @@ function TaskForm({ title, onCloseModal, task }) {
             type="submit"
             additionalStyles="px-7"
             variation="primary"
-            isLoading={isLoading}
+            isLoading={isEditing || isAdding}
           >
             Submit
           </Button>
