@@ -8,9 +8,34 @@ import InputField from "../../ui/InputField";
 import ColorPicker from "../../ui/ColorPicker";
 import { useTasksCategories } from "./useTasksCategories";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAddTasksCategory } from "./useAddTasksCategory";
 
 function TasksControls() {
-  const { tasksCategories = [], isLoading, error } = useTasksCategories();
+  const {
+    tasksCategories = [],
+    isLoading: isLoadingCategory,
+    error,
+  } = useTasksCategories();
+  const { addTasksCategory, isLoading: isAddingCategory } =
+    useAddTasksCategory();
+  const [selectedColorHex, setSelectedColorHex] = useState("#6f8779");
+  const { register, handleSubmit, reset } = useForm();
+  // TODO: implement a way for deleting categories. also add user id to all requests so each user has his own informations and data
+
+  function onSubmit(data) {
+    reset();
+    const newData = { ...data, bgColor: selectedColorHex };
+    addTasksCategory(newData);
+  }
+
+  function onError(errors) {
+    toast.dismiss();
+    Object.keys(errors).forEach((key) => {
+      toast.error(errors[key].message);
+    });
+  }
 
   if (error) toast.error(error.message);
 
@@ -48,18 +73,28 @@ function TasksControls() {
         }
         content={
           <li>
-            <form className="flex flex-col items-start justify-center">
+            <form
+              className="flex flex-col items-start justify-center"
+              onSubmit={handleSubmit(onSubmit, onError)}
+            >
               <div className="flex gap-2">
-                <InputField placeholder="Enter Category" />
+                <InputField
+                  placeholder="Enter Category"
+                  register={register}
+                  validationRules={{ required: "Enter category name" }}
+                  id="name"
+                  disabled={isLoadingCategory}
+                />
                 <Button
                   type="submit"
                   additionalStyles="px-4 h-[34px]"
                   variation="primary"
+                  isLoading={isAddingCategory}
                 >
                   Add
                 </Button>
               </div>
-              <ColorPicker />
+              <ColorPicker onColorChange={setSelectedColorHex} />
             </form>
           </li>
         }
@@ -69,13 +104,13 @@ function TasksControls() {
         label="category"
         id="category"
         options={
-          isLoading
+          isLoadingCategory
             ? ["Loading..."]
             : tasksCategories.length === 0
               ? ["All"]
-              : tasksCategories?.map((category) => category.name).reverse()
+              : tasksCategories.map((category) => category.name)
         }
-        disabled={isLoading}
+        disabled={isLoadingCategory}
       />
       <InputFilter
         label="priority"

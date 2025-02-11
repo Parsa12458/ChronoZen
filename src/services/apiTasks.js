@@ -44,3 +44,14 @@ export async function addTask(newTask) {
 
   return data;
 }
+
+export async function addTasksCategory(newTasksCategory) {
+  const { data, error } = await supabase
+    .from("tasksCategories")
+    .insert([newTasksCategory])
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

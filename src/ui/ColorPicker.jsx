@@ -16,8 +16,8 @@ function Point({ color, checked }) {
   );
 }
 
-function ColorPicker() {
-  const [hex, setHex] = useState("#fff");
+function ColorPicker({ onColorChange }) {
+  const [hex, setHex] = useState("#6f8779");
   return (
     <Swatch
       colors={[
@@ -49,6 +49,7 @@ function ColorPicker() {
       }}
       onChange={(hsvColor) => {
         setHex(hsvaToHex(hsvColor));
+        onColorChange?.(hsvaToHex(hsvColor));
       }}
       className="max-w-48 gap-1"
     />

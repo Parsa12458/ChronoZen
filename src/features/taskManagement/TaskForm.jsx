@@ -11,7 +11,6 @@ import { useAddTask } from "./useAddTask";
 import toast from "react-hot-toast";
 
 function TaskForm({ title, taskOperation, onCloseModal, task }) {
-  // TODO: implement adding task
   const { handleSubmit, register } = useForm({
     defaultValues: {
       title: task?.title || "",
@@ -79,7 +78,11 @@ function TaskForm({ title, taskOperation, onCloseModal, task }) {
         <InputSelect
           id="category"
           label="Category"
-          options={["All", "Personal", "Work"]}
+          options={
+            tasksCategories.length === 0
+              ? ["All"]
+              : tasksCategories.map((category) => category.name)
+          }
           labelType="normal"
           register={register ? register : false}
         />

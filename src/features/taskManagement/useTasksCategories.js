@@ -11,5 +11,7 @@ export function useTasksCategories() {
     queryFn: getTasksCategories,
   });
 
-  return { tasksCategories, isLoading, error };
+  const sortedCategories = tasksCategories?.sort((a, b) => a.id - b.id);
+
+  return { tasksCategories: sortedCategories, isLoading, error };
 }
