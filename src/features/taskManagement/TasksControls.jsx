@@ -22,7 +22,7 @@ function TasksControls() {
     useAddTasksCategory();
   const [selectedColorHex, setSelectedColorHex] = useState("#6f8779");
   const { register, handleSubmit, reset } = useForm();
-  // TODO: implement a way for deleting categories. also add user id to all requests so each user has his own informations and data
+  // TODO: implement a way for deleting categories.
 
   function onSubmit(data) {
     reset();
@@ -106,9 +106,7 @@ function TasksControls() {
         options={
           isLoadingCategory
             ? ["Loading..."]
-            : tasksCategories.length === 0
-              ? ["All"]
-              : tasksCategories.map((category) => category.name)
+            : tasksCategories.map((category) => category.name)
         }
         disabled={isLoadingCategory}
       />
