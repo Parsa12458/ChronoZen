@@ -1,7 +1,13 @@
-import { toCamelCase } from "../utils/helper";
+import { useEffect, useState } from "react";
 import WideLabel from "./WideLabel";
 
-function InputFilter({ label, options }) {
+function InputFilter({ label, options, onChange, defaultValue }) {
+  const [selectedOption, setSelectedOption] = useState(defaultValue || "");
+
+  useEffect(() => {
+    setSelectedOption(defaultValue);
+  }, [defaultValue]);
+
   return (
     <div className="relative flex flex-col items-center justify-center gap-0.5 text-sm font-semibold text-darkGreen">
       <WideLabel>{label}</WideLabel>
@@ -11,9 +17,18 @@ function InputFilter({ label, options }) {
       >
         {options.map((option, i) => (
           <div
-            className="flex h-full w-[6.5rem] cursor-pointer items-center justify-center bg-lightGreen transition-all duration-200 hover:bg-paleGreen"
+            className={`flex h-full w-[6.5rem] cursor-pointer select-none items-center justify-center bg-lightGreen transition-all duration-200 ${option === selectedOption ? "bg-primary text-white hover:bg-primary" : "hover:bg-paleGreen"}`}
             key={i}
-            id={toCamelCase(option)}
+            id={option}
+            onClick={() => {
+              if (selectedOption === option) {
+                setSelectedOption("");
+                onChange?.("");
+              } else {
+                setSelectedOption(option);
+                onChange?.(option);
+              }
+            }}
           >
             {option}
           </div>

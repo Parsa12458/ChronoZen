@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setCategoryColor,
   setSelectedCategoryFilter,
+  setSelectedPriorityFilter,
 } from "./taskManagementSlice";
 
 function TasksControls() {
@@ -28,10 +29,8 @@ function TasksControls() {
   const { deleteTasksCategory, isLoading: isDeletingCategory } =
     useDeleteTasksCategory();
   const { register, handleSubmit, reset } = useForm();
-
-  const { categoryColor, selectedCategoryFilter } = useSelector(
-    (store) => store.taskManagement,
-  );
+  const { categoryColor, selectedCategoryFilter, selectedPriorityFilter } =
+    useSelector((store) => store.taskManagement);
   const dispatch = useDispatch();
 
   function onSubmit(data) {
@@ -175,6 +174,8 @@ function TasksControls() {
         label="priority"
         id="priority"
         options={["High", "Medium", "Low"]}
+        onChange={(option) => dispatch(setSelectedPriorityFilter(option))}
+        defaultValue={selectedPriorityFilter}
       />
       <InputFilter
         label="status"

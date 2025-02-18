@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   categoryColor: "#6f8779",
   selectedCategoryFilter: "All",
+  selectedPriorityFilter: "",
 };
 
 const taskManagementSlice = createSlice({
@@ -15,10 +16,16 @@ const taskManagementSlice = createSlice({
     setSelectedCategoryFilter(state, action) {
       state.selectedCategoryFilter = action.payload;
     },
+    setSelectedPriorityFilter(state, action) {
+      state.selectedPriorityFilter = action.payload;
+    },
   },
 });
 
 export default taskManagementSlice.reducer;
 
-export const { setCategoryColor, setSelectedCategoryFilter } =
-  taskManagementSlice.actions;
+export const {
+  setCategoryColor,
+  setSelectedCategoryFilter,
+  setSelectedPriorityFilter,
+} = taskManagementSlice.actions;

@@ -6,13 +6,20 @@ import { useSelector } from "react-redux";
 
 function TasksList() {
   const { tasks, isLoading, error } = useTasks();
-  const { selectedCategoryFilter } = useSelector(
+  const { selectedCategoryFilter, selectedPriorityFilter } = useSelector(
     (store) => store.taskManagement,
   );
-  const filteredTasks =
-    selectedCategoryFilter === "All"
-      ? tasks
-      : tasks.filter((task) => task.category.name === selectedCategoryFilter);
+  const filteredTasks = tasks
+    ?.filter((task) =>
+      selectedCategoryFilter !== "All"
+        ? task.category.name === selectedCategoryFilter
+        : true,
+    )
+    ?.filter((task) =>
+      selectedPriorityFilter
+        ? task.priority === selectedPriorityFilter.toLowerCase()
+        : true,
+    );
 
   if (error) toast.error(error.message);
 
