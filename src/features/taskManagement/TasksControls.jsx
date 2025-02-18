@@ -1,5 +1,4 @@
 import Button from "../../ui/Button";
-import InputSelect from "../../ui/InputSelect";
 import InputFilter from "../../ui/InputFilter";
 import Modal from "../../ui/Modal";
 import TaskForm from "./TaskForm";
@@ -11,6 +10,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAddTasksCategory } from "./useAddTasksCategory";
+import WideInputSelect from "../../ui/WideInputSelect";
 
 function TasksControls() {
   const {
@@ -22,7 +22,7 @@ function TasksControls() {
     useAddTasksCategory();
   const [selectedColorHex, setSelectedColorHex] = useState("#6f8779");
   const { register, handleSubmit, reset } = useForm();
-  // TODO: implement a way for deleting categories.
+  // TODO: then make it somehow reuseable for adding buttons and options, maybe use compound components. and IG that's it
 
   function onSubmit(data) {
     reset();
@@ -81,7 +81,18 @@ function TasksControls() {
                 <InputField
                   placeholder="Enter Category"
                   register={register}
-                  validationRules={{ required: "Enter category name" }}
+                  validationRules={{
+                    required: "Enter category name",
+                    validate: (value) => {
+                      const isInvalid = tasksCategories.some(
+                        (category) => category.name === value,
+                      );
+                      return (
+                        !isInvalid ||
+                        "Invalid selection. Please choose a different category."
+                      );
+                    },
+                  }}
                   id="name"
                   disabled={isLoadingCategory}
                 />
@@ -99,17 +110,23 @@ function TasksControls() {
           </li>
         }
       />
-
-      <InputSelect
+      <WideInputSelect
         label="category"
         id="category"
-        options={
-          isLoadingCategory
-            ? ["Loading..."]
-            : tasksCategories.map((category) => category.name)
-        }
         disabled={isLoadingCategory}
-      />
+      >
+        {isLoadingCategory ? (
+          <WideInputSelect.Option value={"Loading..."}>
+            Loading...
+          </WideInputSelect.Option>
+        ) : (
+          tasksCategories.map((category, i) => (
+            <WideInputSelect.Option key={i} value={category.name}>
+              {category.name}
+            </WideInputSelect.Option>
+          ))
+        )}
+      </WideInputSelect>
       <InputFilter
         label="priority"
         id="priority"
