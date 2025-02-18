@@ -4,6 +4,7 @@ const initialState = {
   categoryColor: "#6f8779",
   selectedCategoryFilter: "All",
   selectedPriorityFilter: "",
+  selectedStatusFilter: "",
 };
 
 const taskManagementSlice = createSlice({
@@ -19,6 +20,9 @@ const taskManagementSlice = createSlice({
     setSelectedPriorityFilter(state, action) {
       state.selectedPriorityFilter = action.payload;
     },
+    setSelectedStatusFilter(state, action) {
+      state.selectedStatusFilter = action.payload;
+    },
   },
 });
 
@@ -28,4 +32,5 @@ export const {
   setCategoryColor,
   setSelectedCategoryFilter,
   setSelectedPriorityFilter,
+  setSelectedStatusFilter,
 } = taskManagementSlice.actions;

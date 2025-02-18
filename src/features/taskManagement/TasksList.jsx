@@ -3,12 +3,15 @@ import TaskItem from "./TaskItem";
 import TaskSkeleton from "./TaskSkeleton";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { isTodayOrAfterToday } from "../../utils/helper";
 
 function TasksList() {
   const { tasks, isLoading, error } = useTasks();
-  const { selectedCategoryFilter, selectedPriorityFilter } = useSelector(
-    (store) => store.taskManagement,
-  );
+  const {
+    selectedCategoryFilter,
+    selectedPriorityFilter,
+    selectedStatusFilter,
+  } = useSelector((store) => store.taskManagement);
   const filteredTasks = tasks
     ?.filter((task) =>
       selectedCategoryFilter !== "All"
@@ -19,7 +22,23 @@ function TasksList() {
       selectedPriorityFilter
         ? task.priority === selectedPriorityFilter.toLowerCase()
         : true,
-    );
+    )
+    ?.filter((task) => {
+      if (selectedStatusFilter === "Completed") {
+        return task.checked;
+      }
+      if (selectedStatusFilter === "In Progress") {
+        return (
+          !task.checked &&
+          (isTodayOrAfterToday(task.date) || task.date === null)
+        );
+      }
+      if (selectedStatusFilter === "Uncompleted") {
+        return !task.checked;
+      } else {
+        return true;
+      }
+    });
 
   if (error) toast.error(error.message);
 

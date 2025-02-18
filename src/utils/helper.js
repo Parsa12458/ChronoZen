@@ -36,3 +36,14 @@ export function formatTime(timeString) {
   const options = { hour: "numeric", minute: "numeric", hour12: true };
   return new Intl.DateTimeFormat(userLocale, options).format(date);
 }
+
+export function isTodayOrAfterToday(dateToCheck) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const date = new Date(dateToCheck);
+  date.setHours(0, 0, 0, 0);
+
+  // Compare the dates
+  return date >= today;
+}

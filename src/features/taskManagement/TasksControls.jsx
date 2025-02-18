@@ -16,6 +16,7 @@ import {
   setCategoryColor,
   setSelectedCategoryFilter,
   setSelectedPriorityFilter,
+  setSelectedStatusFilter,
 } from "./taskManagementSlice";
 
 function TasksControls() {
@@ -29,8 +30,12 @@ function TasksControls() {
   const { deleteTasksCategory, isLoading: isDeletingCategory } =
     useDeleteTasksCategory();
   const { register, handleSubmit, reset } = useForm();
-  const { categoryColor, selectedCategoryFilter, selectedPriorityFilter } =
-    useSelector((store) => store.taskManagement);
+  const {
+    categoryColor,
+    selectedCategoryFilter,
+    selectedPriorityFilter,
+    selectedStatusFilter,
+  } = useSelector((store) => store.taskManagement);
   const dispatch = useDispatch();
 
   function onSubmit(data) {
@@ -181,6 +186,8 @@ function TasksControls() {
         label="status"
         id="status"
         options={["In Progress", "Uncompleted", "Completed"]}
+        onChange={(option) => dispatch(setSelectedStatusFilter(option))}
+        defaultValue={selectedStatusFilter}
       />
     </div>
   );
