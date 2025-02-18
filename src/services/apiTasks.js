@@ -79,3 +79,15 @@ export async function addTasksCategory(newTasksCategory) {
 
   return data;
 }
+
+export async function deleteTasksCategory(id) {
+  const user = queryClient.getQueryData(["user"]);
+
+  const { error } = await supabase
+    .from("tasksCategories")
+    .delete()
+    .eq("id", id)
+    .or(`userId.eq.${user.id},userId.is.null`);
+
+  if (error) throw new Error(error.message);
+}

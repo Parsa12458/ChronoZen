@@ -80,12 +80,12 @@ const WideInputSelect = ({
   );
 };
 
-function Option({ children, value }) {
+function Option({ children, value, className }) {
   const { handleOptionClick, selectedOption } = useWideInputSelectContext();
   const isSelected = selectedOption === value;
   return (
     <li
-      className={`hover:bg-gray-100 cursor-pointer bg-mintGreen px-4 py-2 ${isSelected ? "bg-paleGreen" : ""}`}
+      className={`hover:bg-gray-100 cursor-pointer bg-mintGreen px-4 py-2 ${className ? className : ""} ${isSelected ? "bg-paleGreen" : ""}`}
       onClick={() => handleOptionClick(value)}
     >
       {children}

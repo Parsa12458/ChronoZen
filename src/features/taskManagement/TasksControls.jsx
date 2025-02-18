@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAddTasksCategory } from "./useAddTasksCategory";
 import WideInputSelect from "../../ui/WideInputSelect";
+import { useDeleteTasksCategory } from "./useDeleteTasksCategory";
 
 function TasksControls() {
   const {
@@ -20,9 +21,10 @@ function TasksControls() {
   } = useTasksCategories();
   const { addTasksCategory, isLoading: isAddingCategory } =
     useAddTasksCategory();
+  const { deleteTasksCategory, isLoading: isDeletingCategory } =
+    useDeleteTasksCategory();
   const [selectedColorHex, setSelectedColorHex] = useState("#6f8779");
   const { register, handleSubmit, reset } = useForm();
-  // TODO: then make it somehow reuseable for adding buttons and options, maybe use compound components. and IG that's it
 
   function onSubmit(data) {
     reset();
@@ -120,9 +122,29 @@ function TasksControls() {
             Loading...
           </WideInputSelect.Option>
         ) : (
-          tasksCategories.map((category, i) => (
-            <WideInputSelect.Option key={i} value={category.name}>
-              {category.name}
+          tasksCategories.map((category) => (
+            <WideInputSelect.Option
+              key={category.id}
+              value={category.name}
+              className="flex items-center justify-between gap-1"
+            >
+              <span>{category.name}</span>
+              {category.name !== "All" && (
+                <button
+                  className={`shrink-0 ${isDeletingCategory ? "cursor-not-allowed opacity-50" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTasksCategory(category.id);
+                  }}
+                  disabled={isDeletingCategory}
+                >
+                  <img
+                    src="/icons/remove.svg"
+                    alt="delete icon"
+                    className="w-5"
+                  />
+                </button>
+              )}
             </WideInputSelect.Option>
           ))
         )}
