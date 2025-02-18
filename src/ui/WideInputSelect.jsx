@@ -13,10 +13,16 @@ const WideInputSelect = ({
   disabled,
   register,
   validationRules,
+  onSelectChange,
+  defaultValue,
 }) => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState(defaultValue || "");
   const [isOpen, setIsOpen] = useState(false);
   const ref = useOutsideClick(() => setIsOpen(false));
+
+  useEffect(() => {
+    setSelectedOption(defaultValue);
+  }, [defaultValue]);
 
   useEffect(() => {
     if (React.Children.count(children) > 0) {
@@ -47,6 +53,7 @@ const WideInputSelect = ({
         target: { value: optionValue },
       });
     }
+    onSelectChange?.(optionValue);
   };
 
   return (

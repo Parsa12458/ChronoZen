@@ -2,9 +2,17 @@ import { useTasks } from "./useTasks";
 import TaskItem from "./TaskItem";
 import TaskSkeleton from "./TaskSkeleton";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 function TasksList() {
   const { tasks, isLoading, error } = useTasks();
+  const { selectedCategoryFilter } = useSelector(
+    (store) => store.taskManagement,
+  );
+  const filteredTasks =
+    selectedCategoryFilter === "All"
+      ? tasks
+      : tasks.filter((task) => task.category.name === selectedCategoryFilter);
 
   if (error) toast.error(error.message);
 
@@ -21,8 +29,8 @@ function TasksList() {
       <div className="flex flex-col items-center justify-center gap-1.5">
         {isLoading ? (
           <TaskSkeleton />
-        ) : tasks.length !== 0 ? (
-          tasks?.map((task) => <TaskItem task={task} key={task.id} />)
+        ) : filteredTasks.length !== 0 ? (
+          filteredTasks?.map((task) => <TaskItem task={task} key={task.id} />)
         ) : (
           <div className="mt-10 text-3xl font-bold text-darkGreen">
             No tasks!

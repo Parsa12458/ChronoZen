@@ -7,11 +7,15 @@ import InputField from "../../ui/InputField";
 import ColorPicker from "../../ui/ColorPicker";
 import { useTasksCategories } from "./useTasksCategories";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAddTasksCategory } from "./useAddTasksCategory";
 import WideInputSelect from "../../ui/WideInputSelect";
 import { useDeleteTasksCategory } from "./useDeleteTasksCategory";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCategoryColor,
+  setSelectedCategoryFilter,
+} from "./taskManagementSlice";
 
 function TasksControls() {
   const {
@@ -23,12 +27,16 @@ function TasksControls() {
     useAddTasksCategory();
   const { deleteTasksCategory, isLoading: isDeletingCategory } =
     useDeleteTasksCategory();
-  const [selectedColorHex, setSelectedColorHex] = useState("#6f8779");
   const { register, handleSubmit, reset } = useForm();
+
+  const { categoryColor, selectedCategoryFilter } = useSelector(
+    (store) => store.taskManagement,
+  );
+  const dispatch = useDispatch();
 
   function onSubmit(data) {
     reset();
-    const newData = { ...data, bgColor: selectedColorHex };
+    const newData = { ...data, bgColor: categoryColor };
     addTasksCategory(newData);
   }
 
@@ -107,7 +115,9 @@ function TasksControls() {
                   Add
                 </Button>
               </div>
-              <ColorPicker onColorChange={setSelectedColorHex} />
+              <ColorPicker
+                onColorChange={(hex) => dispatch(setCategoryColor(hex))}
+              />
             </form>
           </li>
         }
@@ -116,6 +126,8 @@ function TasksControls() {
         label="category"
         id="category"
         disabled={isLoadingCategory}
+        onSelectChange={(value) => dispatch(setSelectedCategoryFilter(value))}
+        defaultValue={selectedCategoryFilter}
       >
         {isLoadingCategory ? (
           <WideInputSelect.Option value={"Loading..."}>
@@ -135,6 +147,16 @@ function TasksControls() {
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteTasksCategory(category.id);
+
+                    const deletedCategory = tasksCategories.find(
+                      (c) => c.id === category.id,
+                    );
+                    if (
+                      deletedCategory &&
+                      selectedCategoryFilter === deletedCategory.name
+                    )
+                      !isDeletingCategory &&
+                        dispatch(setSelectedCategoryFilter("All"));
                   }}
                   disabled={isDeletingCategory}
                 >

@@ -40,7 +40,6 @@ function TaskForm({ title, taskOperation, onCloseModal, task }) {
     );
     const editData = { ...data, id: task?.id, category: selectedCategory };
     const addData = { ...data, category: selectedCategory, checked: false };
-    console.log(addData);
     if (taskOperation === "edit") editTask(editData);
     if (taskOperation === "add") addTask(addData);
     onCloseModal?.();
