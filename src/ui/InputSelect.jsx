@@ -23,7 +23,7 @@ function InputSelect({
           {...(register && register(id, validationRules))}
           defaultValue={toCamelCase(defaultValue)}
         >
-          {options.map((option, i) => (
+          {options?.map((option, i) => (
             <option
               value={toCamelCase(option)}
               key={i}

@@ -40,6 +40,10 @@ function TasksList() {
       }
     });
 
+  const sortedTasks = filteredTasks?.sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
   if (error) toast.error(error.message);
 
   return (
@@ -55,8 +59,8 @@ function TasksList() {
       <div className="flex flex-col items-center justify-center gap-1.5">
         {isLoading ? (
           <TaskSkeleton />
-        ) : filteredTasks.length !== 0 ? (
-          filteredTasks?.map((task) => <TaskItem task={task} key={task.id} />)
+        ) : sortedTasks.length !== 0 ? (
+          sortedTasks?.map((task) => <TaskItem task={task} key={task.id} />)
         ) : (
           <div className="mt-10 text-3xl font-bold text-darkGreen">
             No tasks!

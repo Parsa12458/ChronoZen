@@ -78,9 +78,9 @@ function TaskForm({ title, taskOperation, onCloseModal, task }) {
           id="category"
           label="Category"
           options={
-            tasksCategories.length === 0
+            tasksCategories?.length === 0
               ? ["All"]
-              : tasksCategories.map((category) => category.name)
+              : tasksCategories?.map((category) => category.name)
           }
           labelType="normal"
           register={register ? register : false}
