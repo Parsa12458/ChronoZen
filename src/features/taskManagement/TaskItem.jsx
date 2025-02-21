@@ -82,7 +82,6 @@ function TaskItem({ task }) {
                       date: task.date,
                       time: task.time,
                       recurringFrequency: task.recurringFrequency,
-                      reminder: task.reminder,
                     }}
                   />
                 </Modal.Window>

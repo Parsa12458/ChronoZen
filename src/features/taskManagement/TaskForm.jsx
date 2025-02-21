@@ -1,6 +1,5 @@
 import InputField from "../../ui/InputField";
 import InputSelect from "../../ui/InputSelect";
-import InputCheckbox from "../../ui/InputCheckbox";
 import InputTextarea from "../../ui/InputTextarea";
 import Button from "../../ui/Button";
 import { useForm } from "react-hook-form";
@@ -20,7 +19,6 @@ function TaskForm({ title, taskOperation, onCloseModal, task }) {
       date: task?.date || null,
       recurringFrequency: task?.recurringFrequency || "none",
       time: task?.time ? task.time.slice(0, 5) : null,
-      reminder: task?.reminder || false,
     },
   });
   const { tasksCategories } = useTasksCategories();
@@ -106,14 +104,6 @@ function TaskForm({ title, taskOperation, onCloseModal, task }) {
           type="time"
           register={register ? register : false}
         />
-
-        <div className="mt-4 self-center">
-          <InputCheckbox
-            id="reminder"
-            label="Turn on reminder"
-            register={register ? register : false}
-          />
-        </div>
 
         <div className="col-span-2 mt-7 flex justify-end gap-3 text-sm">
           <Button

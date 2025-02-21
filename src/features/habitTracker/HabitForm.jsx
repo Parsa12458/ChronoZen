@@ -1,5 +1,4 @@
 import Button from "../../ui/Button";
-import InputCheckbox from "../../ui/InputCheckbox";
 import InputField from "../../ui/InputField";
 import InputSelect from "../../ui/InputSelect";
 
@@ -32,10 +31,6 @@ function HabitForm({ title, onCloseModal }) {
           placeholder="Select due time"
           type="time"
         />
-
-        <div className="mt-4 self-center">
-          <InputCheckbox id="habitReminder" label="Turn on reminder" />
-        </div>
 
         <div className="col-span-2 mt-7 flex justify-end gap-3 text-sm">
           <Button

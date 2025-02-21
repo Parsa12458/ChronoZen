@@ -1,6 +1,5 @@
 import InputField from "../../ui/InputField";
 import InputSelect from "../../ui/InputSelect";
-import InputCheckbox from "../../ui/InputCheckbox";
 import InputTextarea from "../../ui/InputTextarea";
 import Button from "../../ui/Button";
 import Badge from "../../ui/Badge";
@@ -18,7 +17,6 @@ function TaskDetail({ data }) {
     date,
     recurringFrequency,
     time,
-    reminder,
   } = data;
   const { deleteTask, isLoading: isDeleting } = useDeleteTask();
 
@@ -76,15 +74,6 @@ function TaskDetail({ data }) {
           disabled={true}
           defaultValue={time}
         />
-
-        <div className="mt-4 self-center">
-          <InputCheckbox
-            id="reminder"
-            label="Turn on reminder"
-            disabled={true}
-            checked={reminder}
-          />
-        </div>
 
         <div className="col-span-2 mt-7 flex justify-end gap-3 text-sm">
           <Button

@@ -1,6 +1,5 @@
 import InputField from "../../ui/InputField";
 import InputSelect from "../../ui/InputSelect";
-import InputCheckbox from "../../ui/InputCheckbox";
 import InputTextarea from "../../ui/InputTextarea";
 import Button from "../../ui/Button";
 import EventMap from "./EventMap";
@@ -54,9 +53,6 @@ function EventForm({ title, onCloseModal }) {
               options={["None", "Daily", "Weekly", "Monthly", "Yearly"]}
               labelType="normal"
             />
-            <div className="mt-2 self-center">
-              <InputCheckbox id="eventReminder" label="Turn on reminder" />
-            </div>
           </div>
           <EventMap />
         </div>
