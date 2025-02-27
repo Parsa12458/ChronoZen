@@ -8,9 +8,10 @@ import { useEditTask } from "./useEditTask";
 import { useTasksCategories } from "./useTasksCategories";
 import { useAddTask } from "./useAddTask";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 function TaskForm({ title, taskOperation, onCloseModal, task }) {
-  const { handleSubmit, register } = useForm({
+  const { handleSubmit, register, setFocus } = useForm({
     defaultValues: {
       title: task?.title || "",
       priority: task?.priority || "high",
@@ -24,6 +25,13 @@ function TaskForm({ title, taskOperation, onCloseModal, task }) {
   const { tasksCategories } = useTasksCategories();
   const { editTask, isEditing } = useEditTask();
   const { addTask, isAdding } = useAddTask();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFocus("title");
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [setFocus]);
 
   function onError(errors) {
     toast.dismiss();

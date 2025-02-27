@@ -59,7 +59,7 @@ function TasksList() {
       <div className="flex flex-col items-center justify-center gap-1.5">
         {isLoading ? (
           <TaskSkeleton />
-        ) : sortedTasks.length !== 0 ? (
+        ) : sortedTasks?.length !== 0 ? (
           sortedTasks?.map((task) => <TaskItem task={task} key={task.id} />)
         ) : (
           <div className="mt-10 text-3xl font-bold text-darkGreen">
