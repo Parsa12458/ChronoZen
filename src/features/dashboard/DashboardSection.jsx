@@ -1,22 +1,20 @@
 import React from "react";
 import Button from "../../ui/Button";
+import DashboardSectionItem from "./DashboardSectionItem";
+import { useSelector } from "react-redux";
+import { isToday } from "../../utils/helper";
 
 function DashboardSection({ title, data }) {
-  let renderData;
-  if (data === "task")
-    renderData = [
-      "Work on ChronoZen project",
-      "Do School homeworks",
-      "Go to gym",
-    ];
+  // Tasks
+  const { tasks } = useSelector((store) => store.dashboard);
+  const todayTasks = tasks?.filter(
+    (task) => (isToday(task.date) || task.date === null) && !task.checked,
+  );
 
-  if (data === "habit")
-    renderData = [
-      "Do the morning routine",
-      "Get 8 hours of sleep",
-      "Drink 8 glasses of water",
-      "Do journaling",
-    ];
+  let renderData;
+  if (data === "task") renderData = todayTasks;
+
+  if (data === "habit") renderData = [];
 
   if (data === "event")
     renderData = [
@@ -39,18 +37,13 @@ function DashboardSection({ title, data }) {
       <h2 className="mb-3 text-lg">{title}</h2>
       {(data === "task" || data === "habit") && (
         <div className="flex flex-col gap-2 pl-2.5 text-sm" role="table">
-          {renderData.map((item, i) => (
-            <div
-              className="flex items-start justify-start gap-2"
-              role="row"
-              key={i}
-            >
-              <span className="mt-[-1px] font-bold">{i + 1}</span>
-              <span className="leading-4">{item}</span>
-              <Button variation="small" additionalStyles="self-center">
-                Done
-              </Button>
-            </div>
+          {renderData?.length === 0 && (
+            <span className="mt-4 text-center text-xl font-bold capitalize">
+              No {data}s!
+            </span>
+          )}
+          {renderData?.map((item, i) => (
+            <DashboardSectionItem item={item} data={data} i={i} key={item.id} />
           ))}
         </div>
       )}

@@ -47,3 +47,14 @@ export function isTodayOrAfterToday(dateToCheck) {
   // Compare the dates
   return date >= today;
 }
+
+export function isToday(dateToCheck) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const date = new Date(dateToCheck);
+  date.setHours(0, 0, 0, 0);
+
+  // Compare the dates
+  return date === today;
+}

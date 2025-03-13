@@ -23,7 +23,9 @@ function Button({
       disabled={isLoading}
     >
       {isLoading && (
-        <div className="loading loading-spinner loading-xs mr-2"></div>
+        <div
+          className={`loading loading-spinner mr-2 ${variation === "small" ? "w-3" : "loading-xs"}`}
+        ></div>
       )}
       {children}
     </button>
