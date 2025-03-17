@@ -66,6 +66,8 @@ function AppHeader() {
               </li>
             </React.Fragment>
           }
+          mainAxisOffset={0}
+          crossAxisOffset={-8}
         />
       </div>
     </div>

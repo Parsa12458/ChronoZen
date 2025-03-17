@@ -42,7 +42,7 @@ function HabitsControls() {
         }
         content={
           <li>
-            <form className="flex flex-col items-start justify-center">
+            <form className="flex !cursor-default flex-col items-start justify-center">
               <div className="flex gap-2">
                 <InputField placeholder="Enter Category" />
                 <Button

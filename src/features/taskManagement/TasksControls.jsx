@@ -88,7 +88,7 @@ function TasksControls() {
         content={
           <li>
             <form
-              className="flex flex-col items-start justify-center"
+              className="flex !cursor-default flex-col items-start justify-center"
               onSubmit={handleSubmit(onSubmit, onError)}
             >
               <div className="flex gap-2">
