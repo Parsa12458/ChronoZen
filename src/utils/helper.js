@@ -58,3 +58,91 @@ export function isToday(dateToCheck) {
   // Compare the dates
   return date === today;
 }
+
+export function calculateStreak(dateArray) {
+  if (!Array.isArray(dateArray) || dateArray.length === 0) return 0;
+
+  // Helper: converts a Date object to YYYY-MM-DD (local dates)
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  // Build a Set of normalized date strings from the logs.
+  const dateSet = new Set(
+    dateArray.map((dateStr) => formatDate(new Date(dateStr))),
+  );
+
+  const now = new Date();
+  const todayStr = formatDate(now);
+
+  // Compute today’s end-of-day timestamp.
+  const endOfToday = new Date(now);
+  endOfToday.setHours(23, 59, 59, 999);
+
+  // ----------------------------
+  // Case 1: Today’s log is present.
+  // ----------------------------
+  if (dateSet.has(todayStr)) {
+    // Count consecutive days including today.
+    let streak = 0;
+    let temp = new Date(now);
+    while (dateSet.has(formatDate(temp))) {
+      streak++;
+      temp.setDate(temp.getDate() - 1);
+    }
+    return streak;
+  }
+
+  // ----------------------------
+  // Case 2: Today’s log is missing.
+  // ----------------------------
+  // If the day is already ended (i.e. it's past 23:59:59) then the streak is 0.
+  if (now >= endOfToday) {
+    return 0;
+  }
+
+  // Otherwise, we're in “pending” mode (today has not ended yet).
+  // In pending mode we report a nonzero streak only if the most recent logged date is exactly yesterday.
+
+  // Get the maximum logged date (as Date) that is before today.
+  let maxLoggedDate = null;
+  for (let dStr of dateSet) {
+    let d = new Date(dStr);
+    // Compare only the date portions (ignore time)
+    if (d < new Date(todayStr)) {
+      if (maxLoggedDate === null || d > maxLoggedDate) {
+        maxLoggedDate = d;
+      }
+    }
+  }
+  if (!maxLoggedDate) return 0;
+
+  // Check if the most recent log is exactly yesterday.
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayStr = formatDate(yesterday);
+  if (formatDate(maxLoggedDate) !== yesterdayStr) {
+    return 0;
+  }
+
+  // Count the consecutive chain _ending_ at yesterday.
+  // (This is the pending streak. We do not “add one” here because today’s log is missing.)
+  let pendingChain = 0;
+  let temp = new Date(maxLoggedDate);
+  while (dateSet.has(formatDate(temp))) {
+    pendingChain++;
+    temp.setDate(temp.getDate() - 1);
+  }
+
+  return pendingChain >= 3 ? pendingChain : 0;
+}
+
+export const formatLocalDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};

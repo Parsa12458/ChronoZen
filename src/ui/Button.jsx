@@ -5,6 +5,7 @@ function Button({
   additionalStyles = "",
   onClick = null,
   isLoading = false,
+  disabled = false,
 }) {
   const primaryStyles =
     "py-2 bg-primary text-white hover:bg-mediumGreen hover:shadow-md disabled:bg-primary disabled:shadow-none";
@@ -20,7 +21,7 @@ function Button({
       type={type}
       className={`${additionalStyles} ${variation === "primary" && primaryStyles} ${variation === "small" && smallStyles} ${variation === "secondary" && secondaryStyles} flex items-center justify-center rounded font-semibold transition-all duration-300 ${variation === "red" && redStyles} disabled:cursor-not-allowed disabled:opacity-80`}
       onClick={onClick}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
     >
       {isLoading && (
         <div

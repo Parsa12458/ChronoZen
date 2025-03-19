@@ -96,6 +96,10 @@ input:-ms-input-autofill:active {
   @apply mb-2;
 }
 
+.habit-calendar .react-calendar__month-view__days__day {
+  @apply relative;
+}
+
 .habit-calendar .react-calendar__month-view__days__day--weekend {
   @apply text-red;
 }
@@ -198,6 +202,10 @@ input:-ms-input-autofill:active {
 
 .events-calendar .react-calendar__month-view__weekdays__weekday {
   @apply mb-2;
+}
+
+.events-calendar .react-calendar__month-view__days__day {
+  @apply relative;
 }
 
 .events-calendar .react-calendar__month-view__days__day--weekend {
