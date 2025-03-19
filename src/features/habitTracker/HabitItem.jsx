@@ -3,7 +3,11 @@ import InputCheckbox from "../../ui/InputCheckbox";
 import Stat from "../../ui/Stat";
 import Button from "../../ui/Button";
 import HabitCalendar from "./HabitCalendar";
-import { calculateStreak, formatTime } from "../../utils/helper";
+import {
+  calculateStreak,
+  formatTime,
+  isTodayChecked as isTodayCheckedFn,
+} from "../../utils/helper";
 import { useCheckHabit } from "./useCheckHabit";
 import { useDeleteHabit } from "./useDeleteHabit";
 import Modal from "../../ui/Modal";
@@ -13,16 +17,7 @@ function HabitItem({ habit }) {
   const { checkHabit, isLoading: isChecking } = useCheckHabit();
   const { deleteHabit, isLoading: isDeleting } = useDeleteHabit();
 
-  const isTodayChecked = habit.checkedDates?.some((date) => {
-    const today = new Date();
-    const checkedDate = new Date(date);
-
-    return (
-      today.getFullYear() === checkedDate.getFullYear() &&
-      today.getMonth() === checkedDate.getMonth() &&
-      today.getDate() === checkedDate.getDate()
-    );
-  });
+  const isTodayChecked = isTodayCheckedFn(habit.checkedDates);
 
   return (
     <div className="grid grid-cols-2 justify-center gap-x-4 rounded bg-lightGreen px-8 py-6">

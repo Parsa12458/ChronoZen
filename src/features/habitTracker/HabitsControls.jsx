@@ -8,6 +8,16 @@ import ColorPicker from "../../ui/ColorPicker";
 import { useHabitsCategories } from "./useHabitsCategories";
 import WideInputSelect from "../../ui/WideInputSelect";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import {
+  setCategoryColor,
+  setSelectedCategoryFilter,
+  setSelectedRecurringFrequencyFilter,
+  setSelectedStatusFilter,
+} from "./habitTrackerSlice";
+import { useAddHabitsCategory } from "./useAddHabitsCategory";
+import { useDeleteHabitsCategory } from "./useDeleteHabitsCategory";
 
 function HabitsControls() {
   const {
@@ -15,6 +25,32 @@ function HabitsControls() {
     isLoading: isLoadingCategory,
     error,
   } = useHabitsCategories();
+
+  const { addHabitsCategory, isLoading: isAddingCategory } =
+    useAddHabitsCategory();
+  const { deleteHabitsCategory, isLoading: isDeletingCategory } =
+    useDeleteHabitsCategory();
+  const { register, handleSubmit, reset } = useForm();
+  const {
+    categoryColor,
+    selectedCategoryFilter,
+    selectedRecurringFrequencyFilter,
+    selectedStatusFilter,
+  } = useSelector((store) => store.habitTracker);
+  const dispatch = useDispatch();
+
+  function onSubmit(data) {
+    reset();
+    const newData = { ...data, bgColor: categoryColor };
+    addHabitsCategory(newData);
+  }
+
+  function onError(errors) {
+    toast.dismiss();
+    Object.keys(errors).forEach((key) => {
+      toast.error(errors[key].message);
+    });
+  }
 
   if (error) toast.error(error.message);
 
@@ -52,18 +88,41 @@ function HabitsControls() {
         }
         content={
           <li>
-            <form className="flex !cursor-default flex-col items-start justify-center">
+            <form
+              className="flex !cursor-default flex-col items-start justify-center"
+              onSubmit={handleSubmit(onSubmit, onError)}
+            >
               <div className="flex gap-2">
-                <InputField placeholder="Enter Category" />
+                <InputField
+                  placeholder="Enter Category"
+                  register={register}
+                  validationRules={{
+                    required: "Enter category name",
+                    validate: (value) => {
+                      const isInvalid = habitsCategories.some(
+                        (category) => category.name === value,
+                      );
+                      return (
+                        !isInvalid ||
+                        "Invalid selection. Please choose a different category."
+                      );
+                    },
+                  }}
+                  id="name"
+                  disabled={isLoadingCategory}
+                />
                 <Button
                   type="submit"
                   additionalStyles="px-4 h-[34px]"
                   variation="primary"
+                  isLoading={isAddingCategory}
                 >
                   Add
                 </Button>
               </div>
-              <ColorPicker />
+              <ColorPicker
+                onColorChange={(hex) => dispatch(setCategoryColor(hex))}
+              />
             </form>
           </li>
         }
@@ -73,6 +132,8 @@ function HabitsControls() {
         label="category"
         id="category"
         disabled={isLoadingCategory}
+        onSelectChange={(value) => dispatch(setSelectedCategoryFilter(value))}
+        defaultValue={selectedCategoryFilter}
       >
         {isLoadingCategory ? (
           <WideInputSelect.Option value={"Loading..."}>
@@ -86,6 +147,32 @@ function HabitsControls() {
               className="flex items-center justify-between gap-1"
             >
               <span>{category.name}</span>
+              {category.name !== "All" && (
+                <button
+                  className={`shrink-0 ${isDeletingCategory ? "cursor-not-allowed opacity-50" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteHabitsCategory(category.id);
+
+                    const deletedCategory = habitsCategories.find(
+                      (c) => c.id === category.id,
+                    );
+                    if (
+                      deletedCategory &&
+                      selectedCategoryFilter === deletedCategory.name
+                    )
+                      !isDeletingCategory &&
+                        dispatch(setSelectedCategoryFilter("All"));
+                  }}
+                  disabled={isDeletingCategory}
+                >
+                  <img
+                    src="/icons/remove.svg"
+                    alt="delete icon"
+                    className="w-5"
+                  />
+                </button>
+              )}
             </WideInputSelect.Option>
           ))
         )}
@@ -93,12 +180,18 @@ function HabitsControls() {
       <InputFilter
         label="Recurring Frequency"
         id="recurringFrequency"
-        options={["Daily", "Weekly", "Monthly"]}
+        options={["Daily", "Weekly", "Monthly", "Yearly"]}
+        onChange={(option) =>
+          dispatch(setSelectedRecurringFrequencyFilter(option))
+        }
+        defaultValue={selectedRecurringFrequencyFilter}
       />
       <InputFilter
         label="status"
         id="status"
-        options={["Completed", "Missed"]}
+        options={["Completed", "Uncompleted"]}
+        onChange={(option) => dispatch(setSelectedStatusFilter(option))}
+        defaultValue={selectedStatusFilter}
       />
     </div>
   );

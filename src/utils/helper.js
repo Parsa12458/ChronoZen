@@ -146,3 +146,16 @@ export const formatLocalDate = (date) => {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
+
+export function isTodayChecked(checkedDates) {
+  return checkedDates?.some((date) => {
+    const today = new Date();
+    const checkedDate = new Date(date);
+
+    return (
+      today.getFullYear() === checkedDate.getFullYear() &&
+      today.getMonth() === checkedDate.getMonth() &&
+      today.getDate() === checkedDate.getDate()
+    );
+  });
+}
