@@ -1,13 +1,23 @@
 import Button from "../../ui/Button";
-import InputSelect from "../../ui/InputSelect";
 import InputFilter from "../../ui/InputFilter";
 import Modal from "../../ui/Modal";
 import HabitForm from "./HabitForm";
 import Dropdown from "../../ui/Dropdown";
 import InputField from "../../ui/InputField";
 import ColorPicker from "../../ui/ColorPicker";
+import { useHabitsCategories } from "./useHabitsCategories";
+import WideInputSelect from "../../ui/WideInputSelect";
+import toast from "react-hot-toast";
 
 function HabitsControls() {
+  const {
+    habitsCategories = [],
+    isLoading: isLoadingCategory,
+    error,
+  } = useHabitsCategories();
+
+  if (error) toast.error(error.message);
+
   return (
     <div className="mt-8 flex gap-3">
       <Modal>
@@ -22,7 +32,7 @@ function HabitsControls() {
           </Button>
         </Modal.Open>
         <Modal.Window name="addHabit">
-          <HabitForm title="Add Habit" />
+          <HabitForm title="Add Habit" habitOperation="add" />
         </Modal.Window>
       </Modal>
 
@@ -59,11 +69,27 @@ function HabitsControls() {
         }
       />
 
-      <InputSelect
+      <WideInputSelect
         label="category"
         id="category"
-        options={["All Categories", "Work", "Personal"]}
-      />
+        disabled={isLoadingCategory}
+      >
+        {isLoadingCategory ? (
+          <WideInputSelect.Option value={"Loading..."}>
+            Loading...
+          </WideInputSelect.Option>
+        ) : (
+          habitsCategories.map((category) => (
+            <WideInputSelect.Option
+              key={category.id}
+              value={category.name}
+              className="flex items-center justify-between gap-1"
+            >
+              <span>{category.name}</span>
+            </WideInputSelect.Option>
+          ))
+        )}
+      </WideInputSelect>
       <InputFilter
         label="Recurring Frequency"
         id="recurringFrequency"

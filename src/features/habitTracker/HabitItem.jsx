@@ -6,6 +6,8 @@ import HabitCalendar from "./HabitCalendar";
 import { calculateStreak, formatTime } from "../../utils/helper";
 import { useCheckHabit } from "./useCheckHabit";
 import { useDeleteHabit } from "./useDeleteHabit";
+import Modal from "../../ui/Modal";
+import HabitForm from "./HabitForm";
 
 function HabitItem({ habit }) {
   const { checkHabit, isLoading: isChecking } = useCheckHabit();
@@ -98,14 +100,25 @@ function HabitItem({ habit }) {
             <img src="/icons/remove.svg" alt="remove icon" className="w-5" />
             <span>Remove</span>
           </Button>
-          <Button
-            type="button"
-            additionalStyles="w-24 py-1.5 flex justify-center items-center gap-1.5"
-            variation="secondary"
-          >
-            <img src="/icons/edit.svg" alt="edit icon" className="w-3.5" />
-            <span>Edit</span>
-          </Button>
+          <Modal>
+            <Modal.Open opens={`Edit:${habit.id}`}>
+              <Button
+                type="button"
+                additionalStyles="w-24 py-1.5 flex justify-center items-center gap-1.5"
+                variation="secondary"
+              >
+                <img src="/icons/edit.svg" alt="edit icon" className="w-3.5" />
+                <span>Edit</span>
+              </Button>
+            </Modal.Open>
+            <Modal.Window name={`Edit:${habit.id}`}>
+              <HabitForm
+                title={`Edit ${habit.title}`}
+                habit={habit}
+                habitOperation="edit"
+              />
+            </Modal.Window>
+          </Modal>
         </div>
       </div>
       <div className="w-[315px]">

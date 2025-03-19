@@ -19,7 +19,7 @@ function Button({
   return (
     <button
       type={type}
-      className={`${additionalStyles} ${variation === "primary" && primaryStyles} ${variation === "small" && smallStyles} ${variation === "secondary" && secondaryStyles} flex items-center justify-center rounded font-semibold transition-all duration-300 ${variation === "red" && redStyles} disabled:cursor-not-allowed disabled:opacity-80`}
+      className={`${additionalStyles} ${variation === "primary" && primaryStyles} ${variation === "small" && smallStyles} ${variation === "secondary" && secondaryStyles} flex items-center justify-center rounded font-semibold transition-all duration-300 ${variation === "red" && redStyles} disabled:cursor-not-allowed disabled:opacity-50`}
       onClick={onClick}
       disabled={isLoading || disabled}
     >
