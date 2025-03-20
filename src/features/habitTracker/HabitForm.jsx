@@ -14,7 +14,6 @@ function HabitForm({ title, onCloseModal, habitOperation, habit }) {
     defaultValues: {
       title: habit?.title || "",
       category: toCamelCase(habit?.category?.name || "all"),
-      recurringFrequency: habit?.recurringFrequency || "none",
       time: habit?.time ? habit.time.slice(0, 5) : null,
     },
   });
@@ -61,13 +60,6 @@ function HabitForm({ title, onCloseModal, habitOperation, habit }) {
           type="text"
           register={register ? register : false}
           validationRules={{ required: "Habit title is required" }}
-        />
-        <InputSelect
-          id="recurringFrequency"
-          label="Recurring Frequency"
-          options={["None", "Daily", "Weekly", "Monthly", "Yearly"]}
-          labelType="normal"
-          register={register ? register : false}
         />
         <InputSelect
           id="category"

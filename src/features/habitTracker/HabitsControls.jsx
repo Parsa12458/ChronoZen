@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import {
   setCategoryColor,
   setSelectedCategoryFilter,
-  setSelectedRecurringFrequencyFilter,
   setSelectedStatusFilter,
 } from "./habitTrackerSlice";
 import { useAddHabitsCategory } from "./useAddHabitsCategory";
@@ -31,12 +30,8 @@ function HabitsControls() {
   const { deleteHabitsCategory, isLoading: isDeletingCategory } =
     useDeleteHabitsCategory();
   const { register, handleSubmit, reset } = useForm();
-  const {
-    categoryColor,
-    selectedCategoryFilter,
-    selectedRecurringFrequencyFilter,
-    selectedStatusFilter,
-  } = useSelector((store) => store.habitTracker);
+  const { categoryColor, selectedCategoryFilter, selectedStatusFilter } =
+    useSelector((store) => store.habitTracker);
   const dispatch = useDispatch();
 
   function onSubmit(data) {
@@ -177,15 +172,6 @@ function HabitsControls() {
           ))
         )}
       </WideInputSelect>
-      <InputFilter
-        label="Recurring Frequency"
-        id="recurringFrequency"
-        options={["Daily", "Weekly", "Monthly", "Yearly"]}
-        onChange={(option) =>
-          dispatch(setSelectedRecurringFrequencyFilter(option))
-        }
-        defaultValue={selectedRecurringFrequencyFilter}
-      />
       <InputFilter
         label="status"
         id="status"

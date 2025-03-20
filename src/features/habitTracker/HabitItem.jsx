@@ -63,13 +63,7 @@ function HabitItem({ habit }) {
             </Badge>
           </div>
         </div>
-        <div className="mb-4 ml-7 text-xs">
-          <p>
-            Recurring Frequency:{" "}
-            <span className="font-semibold capitalize">
-              {habit.recurringFrequency || "Unset"}
-            </span>
-          </p>
+        <div className="mb-4 ml-7 mt-1 text-xs">
           <p>
             Time:{" "}
             <span className="font-semibold capitalize">
