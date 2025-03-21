@@ -20,10 +20,14 @@ export function getContrastingTextColor(hex) {
   return luminance > 0.55 ? "#000000" : "#FFFFFF";
 }
 
-export function formatDate(dateString) {
+export function formatDate(dateString, includeDay = false) {
   const date = new Date(dateString);
   const userLocale = navigator.language || "en-US";
-  const options = { year: "numeric", month: "long", day: "numeric" };
+
+  const options = includeDay
+    ? { weekday: "long", year: "numeric", month: "long", day: "numeric" }
+    : { year: "numeric", month: "long", day: "numeric" };
+
   return new Intl.DateTimeFormat(userLocale, options).format(date);
 }
 
@@ -157,4 +161,19 @@ export function isTodayChecked(checkedDates) {
       today.getDate() === checkedDate.getDate()
     );
   });
+}
+
+export function getTimeOfDay() {
+  const date = new Date();
+  const hour = date.getHours();
+
+  if (hour >= 5 && hour < 12) {
+    return "Morning";
+  } else if (hour >= 12 && hour < 17) {
+    return "Afternoon";
+  } else if (hour >= 17 && hour < 21) {
+    return "Evening";
+  } else {
+    return "Night";
+  }
 }

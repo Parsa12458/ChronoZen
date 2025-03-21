@@ -11,10 +11,7 @@ function Open({ children, opens: opensWindowName }) {
   const { open } = useModal();
 
   return cloneElement(children, {
-    onClick: (e) => {
-      e.stopPropagation();
-      open(opensWindowName);
-    },
+    onClick: () => open(opensWindowName),
   });
 }
 

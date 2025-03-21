@@ -5,9 +5,10 @@ import {
   autoUpdate,
   useTransitionStyles,
   offset,
+  useDismiss,
+  useInteractions,
 } from "@floating-ui/react";
 import { useState } from "react";
-import { useOutsideClick } from "../hooks/useOutsideClick";
 
 function Dropdown({
   button,
@@ -17,7 +18,7 @@ function Dropdown({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { x, y, strategy, refs, update, context } = useFloating({
+  const { x, y, strategy, refs, context } = useFloating({
     middleware: [
       offset({
         mainAxis: mainAxisOffset,
@@ -28,23 +29,23 @@ function Dropdown({
     ],
     whileElementsMounted: autoUpdate,
     open: isOpen,
+    onOpenChange: setIsOpen,
     placement: "bottom-end",
   });
 
   const { isMounted, styles } = useTransitionStyles(context);
 
-  const handleClick = () => {
-    setIsOpen((prev) => !prev);
-    update();
-  };
-
-  const outsideClickRef = useOutsideClick(() => setIsOpen(false), false);
+  const dismiss = useDismiss(context);
+  const { getReferenceProps, getFloatingProps } = useInteractions([dismiss]);
 
   return (
-    <div className="relative" ref={outsideClickRef}>
+    <div className="relative">
       <div
         ref={refs.setReference}
-        onClick={handleClick}
+        {...getReferenceProps({
+          onClick: () => setIsOpen((prev) => !prev),
+        })}
+        onClick={() => setIsOpen((prev) => !prev)}
         className="h-full cursor-pointer"
       >
         {button}
@@ -52,12 +53,14 @@ function Dropdown({
       {isMounted && (
         <ul
           ref={refs.setFloating}
-          style={{
-            ...styles,
-            position: strategy,
-            top: y ?? 0,
-            left: x ?? 0,
-          }}
+          {...getFloatingProps({
+            style: {
+              ...styles,
+              position: strategy,
+              top: y ?? 0,
+              left: x ?? 0,
+            },
+          })}
           className="menu z-10 w-max rounded bg-mintGreen p-1 shadow-md"
         >
           {content}

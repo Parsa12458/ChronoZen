@@ -4,16 +4,22 @@ import Dropdown from "./Dropdown";
 import Modal from "./Modal";
 import EditAccountForm from "../features/authentication/EditAccountForm";
 import { useLogout } from "../features/authentication/useLogout";
+import { formatDate, getTimeOfDay } from "../utils/helper";
+import { queryClient } from "../App";
 
 function AppHeader() {
   const { logout, isLoading } = useLogout();
+  const user = queryClient.getQueryData(["user"]);
 
   return (
     <div className="col-start-2 col-end-3 flex items-center gap-10 px-12 py-8 font-semibold">
       <div>
-        Good Afternoon, <span className="font-bold">Parsa!</span>
+        Good {getTimeOfDay()},{" "}
+        <span className="font-bold">
+          {user?.user_metadata?.fullName?.split(" ")?.at(0)}!
+        </span>
       </div>
-      <div className="ml-auto">Monday, November 25, 2024</div>
+      <div className="ml-auto">{formatDate(new Date(), true)}</div>
       <div className="flex items-center justify-center gap-2">
         <CircleButton>
           <img src="/icons/moon-icon.svg" alt="moon icon" className="h-6 w-6" />
