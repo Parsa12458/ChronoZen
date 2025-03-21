@@ -3,18 +3,34 @@ import DashboardPieChart from "../features/dashboard/DashboardPieChart";
 import Button from "../ui/Button";
 import { useTasks } from "../features/taskManagement/useTasks";
 import { useDispatch } from "react-redux";
-import { setTasks } from "../features/dashboard/dashboardSlice";
+import { setHabits, setTasks } from "../features/dashboard/dashboardSlice";
 import toast from "react-hot-toast";
 import FullSpinner from "../ui/FullSpinner";
 import { useEffect } from "react";
+import { useHabits } from "../features/habitTracker/useHabits";
+import { isTodayChecked } from "../utils/helper";
 
 function DashboardPage() {
-  const { tasks, isLoading, error } = useTasks();
+  // Tasks
+  const { tasks, isLoading: isLoadingTasks, error: tasksError } = useTasks();
   const completedTasksLength = tasks?.filter(
     (task) => task.checked === true,
   ).length;
   const uncompletedTasksLength = tasks?.filter(
     (task) => task.checked !== true,
+  ).length;
+
+  // Habits
+  const {
+    habits,
+    isLoading: isLoadingHabits,
+    error: habitsError,
+  } = useHabits();
+  const completedHabitsLength = habits?.filter((habit) =>
+    isTodayChecked(habit.checkedDates),
+  ).length;
+  const uncompletedHabitsLength = habits?.filter(
+    (habit) => !isTodayChecked(habit.checkedDates),
   ).length;
 
   const dispatch = useDispatch();
@@ -23,9 +39,14 @@ function DashboardPage() {
     dispatch(setTasks(tasks));
   }, [tasks, dispatch]);
 
-  if (error) toast.error(error.message);
+  useEffect(() => {
+    dispatch(setHabits(habits));
+  }, [habits, dispatch]);
 
-  if (isLoading) return <FullSpinner />;
+  if (tasksError) toast.error(tasksError.message);
+  if (habitsError) toast.error(habitsError.message);
+
+  if (isLoadingTasks || isLoadingHabits) return <FullSpinner />;
 
   return (
     <div className="grid grid-cols-3 grid-rows-[max-content_max-content_max-content_max-content] gap-5">
@@ -44,18 +65,23 @@ function DashboardPage() {
           },
           { name: "Uncompleted", value: uncompletedTasksLength },
         ]}
-        colors={["#6f8779", "#bb1a3a"]}
+        colors={["#6f8779", "#be3636"]}
       />
       <DashboardSection title="Events for today" data="event" />
       <DashboardPieChart
         title="Today Habits Status"
         data={[
-          { name: "Completed", value: 800 },
-          { name: "In Progress", value: 300 },
+          {
+            name: "Completed",
+            value:
+              completedHabitsLength === 0 && uncompletedHabitsLength === 0
+                ? 100
+                : completedHabitsLength,
+          },
+          { name: "Uncompleted", value: uncompletedHabitsLength },
         ]}
-        colors={["#6f8779", "#F27525"]}
+        colors={["#6f8779", "#be3636"]}
       />
-
       <Button type="primary" additionalStyles="col-start-3 col-end-4 py-3">
         Get Full Report
       </Button>

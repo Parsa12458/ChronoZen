@@ -2,7 +2,10 @@ import React from "react";
 import Button from "../../ui/Button";
 import DashboardSectionItem from "./DashboardSectionItem";
 import { useSelector } from "react-redux";
-import { isToday } from "../../utils/helper";
+import {
+  isToday,
+  isTodayChecked as isTodayCheckedFn,
+} from "../../utils/helper";
 
 function DashboardSection({ title, data }) {
   // Tasks
@@ -11,10 +14,16 @@ function DashboardSection({ title, data }) {
     (task) => (isToday(task.date) || task.date === null) && !task.checked,
   );
 
+  // Habits
+  const { habits } = useSelector((store) => store.dashboard);
+  const todayHabits = habits?.filter(
+    (habit) => !isTodayCheckedFn(habit.checkedDates),
+  );
+
   let renderData;
   if (data === "task") renderData = todayTasks;
 
-  if (data === "habit") renderData = [];
+  if (data === "habit") renderData = todayHabits;
 
   if (data === "event")
     renderData = [
