@@ -15,6 +15,7 @@ function Dropdown({
   content,
   mainAxisOffset = 0,
   crossAxisOffset = 0,
+  placement = "bottom-end",
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,7 +31,7 @@ function Dropdown({
     whileElementsMounted: autoUpdate,
     open: isOpen,
     onOpenChange: setIsOpen,
-    placement: "bottom-end",
+    placement: placement,
   });
 
   const { isMounted, styles } = useTransitionStyles(context);

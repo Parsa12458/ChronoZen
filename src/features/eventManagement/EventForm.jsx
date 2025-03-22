@@ -38,7 +38,7 @@ function EventForm({ title, onCloseModal }) {
             <InputField
               id="eventLocation"
               label="Location"
-              placeholder="Enter event title"
+              placeholder="Enter event location"
               type="text"
             />
             <InputSelect

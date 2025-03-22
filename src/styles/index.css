@@ -204,10 +204,6 @@ input:-ms-input-autofill:active {
   @apply mb-2;
 }
 
-.events-calendar .react-calendar__month-view__days__day {
-  @apply relative;
-}
-
 .events-calendar .react-calendar__month-view__days__day--weekend {
   @apply text-red;
 }
@@ -232,7 +228,10 @@ input:-ms-input-autofill:active {
 .events-calendar .react-calendar__tile {
   @apply flex h-full w-full rounded bg-paleGreen px-4 py-2 text-center text-lg font-semibold transition-all duration-300;
   font-size: 0.833em;
-  aspect-ratio: 5/4;
+}
+
+.events-calendar .react-calendar__month-view__days__day {
+  @apply relative min-h-24 !cursor-auto flex-col items-start !overflow-visible !px-1.5 !pb-2.5 !pt-1 hover:!bg-paleGreen;
 }
 
 .events-calendar .react-calendar__tile:enabled:hover {
@@ -246,14 +245,6 @@ input:-ms-input-autofill:active {
 .events-calendar .react-calendar__tile--now:enabled:hover,
 .events-calendar .react-calendar__tile--now:enabled:focus {
   @apply bg-mediumGreen text-white;
-}
-
-.events-calendar .react-calendar__tile--active {
-  @apply bg-primary text-white;
-}
-
-.events-calendar .react-calendar__tile--active:enabled:hover {
-  @apply bg-primary;
 }
 
 .events-calendar .react-calendar__year-view__months,
