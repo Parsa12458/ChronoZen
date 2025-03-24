@@ -244,7 +244,7 @@ input:-ms-input-autofill:active {
 
 .events-calendar .react-calendar__tile--now:enabled:hover,
 .events-calendar .react-calendar__tile--now:enabled:focus {
-  @apply bg-mediumGreen text-white;
+  @apply !bg-mediumGreen !text-white;
 }
 
 .events-calendar .react-calendar__year-view__months,

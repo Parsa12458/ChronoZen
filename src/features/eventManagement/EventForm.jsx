@@ -3,55 +3,116 @@ import InputSelect from "../../ui/InputSelect";
 import InputTextarea from "../../ui/InputTextarea";
 import Button from "../../ui/Button";
 import EventMap from "./EventMap";
+import { useForm } from "react-hook-form";
+import { toCamelCase } from "../../utils/helper";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { useEventsCategories } from "./useEventsCategories";
+import { useAddEvent } from "./useAddEvent";
+import { useEditEvent } from "./useEditEvent";
 
-function EventForm({ title, onCloseModal }) {
+function EventForm({ title, onCloseModal, event, eventOperation }) {
+  const { handleSubmit, register, setFocus } = useForm({
+    defaultValues: {
+      title: event?.title || "",
+      description: event?.description || "",
+      date: event?.date || null,
+      time: event?.time ? event.time.slice(0, 5) : null,
+      location: event?.location || "",
+      category: toCamelCase(event?.category?.name || "all"),
+      recurringFrequency: event?.recurringFrequency || "none",
+    },
+  });
+  const { eventsCategories } = useEventsCategories();
+  const { addEvent, isLoading: isAdding } = useAddEvent();
+  const { editEvent, isLoading: isEditing } = useEditEvent();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFocus("title");
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [setFocus]);
+
+  function onError(errors) {
+    toast.dismiss();
+    Object.keys(errors).forEach((key) => {
+      toast.error(errors[key].message);
+    });
+  }
+
+  function onSubmit(data) {
+    const selectedCategory = eventsCategories.find(
+      (category) => toCamelCase(category.name) === data.category,
+    );
+    const editData = { ...data, id: event?.id, category: selectedCategory };
+    const addData = { ...data, category: selectedCategory, checked: false };
+
+    if (eventOperation === "edit") editEvent(editData);
+    if (eventOperation === "add") addEvent(addData);
+    onCloseModal?.();
+  }
+
   return (
     <div>
       <h2 className="mb-7 text-2xl font-bold">{title}</h2>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <div className="flex gap-12">
           <div className="grid min-w-52 grid-cols-1 gap-y-4">
             <InputField
-              id="eventTitle"
-              label="Event Title"
+              id="title"
+              label="Event Title*"
               placeholder="Enter event title"
               type="text"
+              register={register ? register : false}
+              validationRules={{ required: "Event title is required" }}
             />
             <InputTextarea
-              id="eventDescription"
+              id="description"
               label="Description"
               placeholder="Enter event description"
               type="text"
+              register={register ? register : false}
             />
             <InputField
-              id="eventDate"
-              label="Date"
+              id="date"
+              label="Date*"
               placeholder="Select due date"
               type="date"
+              register={register ? register : false}
+              validationRules={{ required: "Event date is required" }}
             />
             <InputField
-              id="eventTime"
+              id="time"
               label="Time"
               placeholder="Select due time"
               type="time"
+              register={register ? register : false}
             />
             <InputField
-              id="eventLocation"
+              id="location"
               label="Location"
               placeholder="Enter event location"
               type="text"
+              register={register ? register : false}
             />
             <InputSelect
-              id="eventCategory"
+              id="category"
               label="Category"
-              options={["All", "Personal", "Work"]}
+              options={
+                eventsCategories?.length === 0
+                  ? ["All"]
+                  : eventsCategories?.map((category) => category.name)
+              }
               labelType="normal"
+              register={register ? register : false}
             />
             <InputSelect
-              id="eventRecurringFrequency"
+              id="recurringFrequency"
               label="Recurring Frequency"
               options={["None", "Daily", "Weekly", "Monthly", "Yearly"]}
               labelType="normal"
+              register={register ? register : false}
             />
           </div>
           <EventMap />
@@ -66,7 +127,12 @@ function EventForm({ title, onCloseModal }) {
           >
             Cancel
           </Button>
-          <Button type="submit" additionalStyles="px-7" variation="primary">
+          <Button
+            type="submit"
+            additionalStyles="px-7"
+            variation="primary"
+            isLoading={isEditing || isAdding}
+          >
             Submit
           </Button>
         </div>
