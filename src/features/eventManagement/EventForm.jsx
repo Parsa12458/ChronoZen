@@ -2,7 +2,6 @@ import InputField from "../../ui/InputField";
 import InputSelect from "../../ui/InputSelect";
 import InputTextarea from "../../ui/InputTextarea";
 import Button from "../../ui/Button";
-import EventMap from "./EventMap";
 import { useForm } from "react-hook-form";
 import { toCamelCase } from "../../utils/helper";
 import { useEffect } from "react";
@@ -68,69 +67,66 @@ function EventForm({ title, onCloseModal, event, eventOperation }) {
   return (
     <div>
       <h2 className="mb-7 text-2xl font-bold">{title}</h2>
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <div className="flex gap-12">
-          <div className="grid min-w-52 grid-cols-1 gap-y-4">
-            <InputField
-              id="title"
-              label="Event Title*"
-              placeholder="Enter event title"
-              type="text"
-              register={register ? register : false}
-              validationRules={{ required: "Event title is required" }}
-            />
-            <InputTextarea
-              id="description"
-              label="Description"
-              placeholder="Enter event description"
-              type="text"
-              register={register ? register : false}
-            />
-            <InputField
-              id="date"
-              label="Date*"
-              placeholder="Select due date"
-              type="date"
-              register={register ? register : false}
-              validationRules={{ required: "Event date is required" }}
-            />
-            <InputField
-              id="time"
-              label="Time"
-              placeholder="Select due time"
-              type="time"
-              register={register ? register : false}
-            />
-            <InputField
-              id="location"
-              label="Location"
-              placeholder="Enter event location"
-              type="text"
-              register={register ? register : false}
-            />
-            <InputSelect
-              id="category"
-              label="Category"
-              options={
-                eventsCategories?.length === 0
-                  ? ["All"]
-                  : eventsCategories?.map((category) => category.name)
-              }
-              labelType="normal"
-              register={register ? register : false}
-            />
-            <InputSelect
-              id="recurringFrequency"
-              label="Recurring Frequency"
-              options={["None", "Daily", "Weekly", "Monthly", "Yearly"]}
-              labelType="normal"
-              register={register ? register : false}
-            />
-          </div>
-          <EventMap />
-        </div>
-
-        <div className="mt-8 flex justify-end gap-3 text-sm">
+      <form
+        onSubmit={handleSubmit(onSubmit, onError)}
+        className="grid grid-cols-2 items-start gap-x-10 gap-y-4"
+      >
+        <InputField
+          id="title"
+          label="Event Title*"
+          placeholder="Enter event title"
+          type="text"
+          register={register ? register : false}
+          validationRules={{ required: "Event title is required" }}
+        />
+        <InputSelect
+          id="category"
+          label="Category"
+          options={
+            eventsCategories?.length === 0
+              ? ["All"]
+              : eventsCategories?.map((category) => category.name)
+          }
+          labelType="normal"
+          register={register ? register : false}
+        />
+        <InputTextarea
+          id="description"
+          label="Description"
+          placeholder="Enter event description"
+          type="text"
+          register={register ? register : false}
+        />
+        <InputSelect
+          id="recurringFrequency"
+          label="Recurring Frequency"
+          options={["None", "Daily", "Weekly", "Monthly", "Yearly"]}
+          labelType="normal"
+          register={register ? register : false}
+        />
+        <InputField
+          id="date"
+          label="Date*"
+          placeholder="Select due date"
+          type="date"
+          register={register ? register : false}
+          validationRules={{ required: "Event date is required" }}
+        />
+        <InputField
+          id="location"
+          label="Location"
+          placeholder="Enter event location"
+          type="text"
+          register={register ? register : false}
+        />
+        <InputField
+          id="time"
+          label="Time"
+          placeholder="Select due time"
+          type="time"
+          register={register ? register : false}
+        />
+        <div className="col-span-2 mt-7 flex justify-end gap-3 text-sm">
           <Button
             type="button"
             additionalStyles="px-7"
