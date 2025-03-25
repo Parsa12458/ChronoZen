@@ -45,8 +45,20 @@ function EventForm({ title, onCloseModal, event, eventOperation }) {
     const selectedCategory = eventsCategories.find(
       (category) => toCamelCase(category.name) === data.category,
     );
-    const editData = { ...data, id: event?.id, category: selectedCategory };
-    const addData = { ...data, category: selectedCategory, checked: false };
+    const editData = {
+      ...data,
+      id: event?.id,
+      category: selectedCategory,
+      date: data.date || null,
+      time: data.time || null,
+    };
+    const addData = {
+      ...data,
+      category: selectedCategory,
+      checked: false,
+      date: data.date || null,
+      time: data.time || null,
+    };
 
     if (eventOperation === "edit") editEvent(editData);
     if (eventOperation === "add") addEvent(addData);

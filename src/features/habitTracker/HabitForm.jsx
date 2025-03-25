@@ -39,8 +39,17 @@ function HabitForm({ title, onCloseModal, habitOperation, habit }) {
     const selectedCategory = habitsCategories.find(
       (category) => toCamelCase(category.name) === data.category,
     );
-    const editData = { ...data, id: habit?.id, category: selectedCategory };
-    const addData = { ...data, category: selectedCategory };
+    const editData = {
+      ...data,
+      id: habit?.id,
+      category: selectedCategory,
+      time: data.time || null,
+    };
+    const addData = {
+      ...data,
+      category: selectedCategory,
+      time: data.time || null,
+    };
     if (habitOperation === "edit") editHabit(editData);
     if (habitOperation === "add") addHabit(addData);
     onCloseModal?.();

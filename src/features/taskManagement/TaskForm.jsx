@@ -44,8 +44,20 @@ function TaskForm({ title, taskOperation, onCloseModal, task }) {
     const selectedCategory = tasksCategories.find(
       (category) => toCamelCase(category.name) === data.category,
     );
-    const editData = { ...data, id: task?.id, category: selectedCategory };
-    const addData = { ...data, category: selectedCategory, checked: false };
+    const editData = {
+      ...data,
+      id: task?.id,
+      category: selectedCategory,
+      date: data.date || null,
+      time: data.time || null,
+    };
+    const addData = {
+      ...data,
+      category: selectedCategory,
+      checked: false,
+      date: data.date || null,
+      time: data.time || null,
+    };
     if (taskOperation === "edit") editTask(editData);
     if (taskOperation === "add") addTask(addData);
     onCloseModal?.();
