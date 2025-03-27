@@ -186,3 +186,11 @@ export function hexToRgba(hex, opacity) {
 
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
+
+export function calculatePercentage(partialValue, totalValue) {
+  if (totalValue === 0) {
+    return 0;
+  }
+  const percentage = Math.round((partialValue / totalValue) * 100);
+  return percentage;
+}

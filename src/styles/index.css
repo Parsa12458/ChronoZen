@@ -45,7 +45,7 @@ input:-ms-input-autofill:active {
 
 /* Custom checkbox styles */
 .custom-checkbox {
-  @apply h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-primary bg-contain bg-center checked:bg-primary checked:bg-[url('/icons/tick-mark.svg')] focus:ring-0 disabled:cursor-default disabled:opacity-80;
+  @apply cursor-pointer appearance-none rounded-md border-2 border-primary bg-contain bg-center checked:bg-primary checked:bg-[url('/icons/tick-mark.svg')] focus:ring-0 disabled:cursor-default disabled:opacity-80;
 }
 
 /* Calendar styles for habit tracker section */

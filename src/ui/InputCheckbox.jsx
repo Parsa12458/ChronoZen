@@ -15,7 +15,11 @@ function InputCheckbox({
         type="checkbox"
         name={id}
         id={id}
-        className={`custom-checkbox ${size ? `!h-${size} !w-${size}` : "h-5 w-5"}`}
+        style={{
+          width: size ? size : "1.25rem",
+          height: size ? size : "1.25rem",
+        }}
+        className="custom-checkbox"
         disabled={disabled}
         checked={checked}
         onChange={() => onChange?.()}
