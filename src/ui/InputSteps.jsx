@@ -1,27 +1,40 @@
 import { useState } from "react";
+import { useFieldArray, useWatch } from "react-hook-form";
+import toast from "react-hot-toast";
 
-function InputSteps({ id, label, placeholder = "" }) {
-  const [steps, setSteps] = useState([]);
+function InputSteps({ id, label, placeholder = "", control, register }) {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "steps",
+  });
+
+  const watchedSteps = useWatch({
+    control,
+    name: "steps",
+  });
+
   const [inputValue, setInputValue] = useState("");
-  const [editingStepId, setEditingStepId] = useState(null);
+  const [editingIndex, setEditingIndex] = useState(null);
 
   const handleAddStep = (e) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      setSteps([...steps, { text: inputValue, id: Date.now() }]);
+      append({
+        id: Date.now(),
+        step: inputValue,
+        checked: false,
+      });
       setInputValue("");
     }
   };
 
-  const handleEditStep = (id, newText) => {
-    setSteps(
-      steps.map((step) => (step.id === id ? { ...step, text: newText } : step)),
-    );
-  };
-
-  const handleDeleteStep = (e, id) => {
-    e.preventDefault();
-    setSteps(steps.filter((step) => step.id !== id));
+  const handleFinishEditing = (e) => {
+    const value = e.target.value.trim();
+    if (!value) {
+      toast.error("Step is required");
+    } else {
+      setEditingIndex(null);
+    }
   };
 
   return (
@@ -31,67 +44,85 @@ function InputSteps({ id, label, placeholder = "" }) {
           {label}
         </label>
       )}
+
       <div className="relative">
         <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAddStep(e)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleAddStep(e);
+          }}
           placeholder={placeholder}
-          className="w-full rounded border border-mediumGreen bg-transparent py-1.5 pl-3 pr-8 text-sm font-medium placeholder:text-mediumGreen/60 autofill:bg-white focus:outline-0"
+          className="w-full rounded border border-mediumGreen bg-transparent py-1.5 pl-3 pr-8 text-sm font-medium placeholder:text-mediumGreen/60 focus:outline-0"
         />
         <button
+          type="button"
           className="absolute right-0 top-2 mr-2 h-max w-max"
           onClick={handleAddStep}
         >
-          <img src="/icons/arrow-down-big.svg" />
+          <img src="/icons/arrow-down-big.svg" alt="Add step" />
         </button>
       </div>
 
       <ol className="mt-2 space-y-2 text-xs leading-4">
-        {steps.map((step, i) => (
-          <li key={i}>
-            {editingStepId === step.id ? (
-              <div className="relative">
+        {fields.map((field, index) => {
+          const stepValue =
+            watchedSteps &&
+            watchedSteps[index] &&
+            watchedSteps[index].step !== undefined
+              ? watchedSteps[index].step
+              : field.step;
+
+          return (
+            <li key={field.id} className="flex items-center justify-between">
+              {editingIndex === index ? (
                 <input
                   type="text"
-                  value={step.text}
-                  onChange={(e) => handleEditStep(step.id, e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && setEditingStepId(null)}
-                  className="w-full rounded border border-mediumGreen bg-transparent px-3 py-1 text-sm font-medium placeholder:text-mediumGreen/60 autofill:bg-white focus:outline-0"
+                  defaultValue={stepValue}
+                  {...register(`steps.${index}.step`, {
+                    required: "Step is required",
+                  })}
+                  className="w-full rounded border border-mediumGreen bg-transparent px-3 py-1 text-sm font-medium focus:outline-0"
+                  onBlur={handleFinishEditing}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleFinishEditing(e);
+                    }
+                  }}
                 />
-              </div>
-            ) : (
-              <div className="flex items-start gap-2">
-                <p className="flex items-start">
-                  <span className="inline-block">{i + 1}.</span>
-                  <span className="ml-1 inline-block">{step.text}</span>
-                </p>
-
-                <div className="-mb-0.5 ml-auto flex flex-shrink-0 items-center justify-center gap-1">
-                  <button
-                    onClick={() => setEditingStepId(step.id)}
-                    type="button"
-                  >
+              ) : (
+                <div className="flex flex-1 items-center space-x-2">
+                  <span>
+                    {index + 1}.<span className="ml-1">{stepValue}</span>
+                  </span>
+                  <button type="button" onClick={() => setEditingIndex(index)}>
                     <img
                       src="/icons/edit.svg"
-                      alt="user edit icon"
+                      alt="Edit step"
                       className="w-3"
                     />
                   </button>
-
-                  <button onClick={(e) => handleDeleteStep(e, step.id)}>
-                    <img
-                      src="/icons/remove.svg"
-                      alt="user edit icon"
-                      className="w-4"
-                    />
-                  </button>
                 </div>
-              </div>
-            )}
-          </li>
-        ))}
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingIndex(null);
+                  remove(index);
+                }}
+                className="ml-2"
+              >
+                <img
+                  src="/icons/remove.svg"
+                  alt="Remove step"
+                  className="w-4"
+                />
+              </button>
+            </li>
+          );
+        })}
       </ol>
     </div>
   );

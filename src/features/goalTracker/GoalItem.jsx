@@ -1,9 +1,13 @@
 import Badge from "../../ui/Badge";
 import Button from "../../ui/Button";
 import InputCheckbox from "../../ui/InputCheckbox";
+import Modal from "../../ui/Modal";
 import { calculatePercentage, formatDate } from "../../utils/helper";
+import GoalForm from "./GoalForm";
+import { useDeleteGoal } from "./useDeleteGoal";
 
 function GoalItem({ goal }) {
+  const { deleteGoal, isLoading: isDeleting } = useDeleteGoal();
   const stepsCompletedPercentage = calculatePercentage(
     goal.steps.filter((step) => step.checked === true).length,
     goal.steps.length,
@@ -45,17 +49,15 @@ function GoalItem({ goal }) {
             <span className="font-bold">Steps: </span>
           </p>
           <ol className="ml-1 mt-2 flex flex-col items-start justify-center gap-1.5 font-medium">
-            {goal.steps
-              ? goal.steps.map((step, i) => (
-                  <li key={step.id}>
-                    <InputCheckbox
-                      size="0.875rem "
-                      label={`${i + 1}. ${step.step}`}
-                      labelSize="xs"
-                    />
-                  </li>
-                ))
-              : "-"}
+            {goal.steps.map((step, i) => (
+              <li key={step.id}>
+                <InputCheckbox
+                  size="0.875rem "
+                  label={`${i + 1}. ${step.step}`}
+                  labelSize="xs"
+                />
+              </li>
+            ))}
           </ol>
         </div>
       </div>
@@ -73,18 +75,32 @@ function GoalItem({ goal }) {
           type="button"
           additionalStyles="w-24 py-1.5 flex justify-center items-center gap-1"
           variation="red"
+          onClick={() => deleteGoal(goal.id)}
+          disabled={isDeleting}
         >
           <img src="/icons/remove.svg" alt="remove icon" className="w-5" />
           <span>Remove</span>
         </Button>
-        <Button
-          type="button"
-          additionalStyles="w-24 py-1.5 flex justify-center items-center gap-1.5"
-          variation="secondary"
-        >
-          <img src="/icons/edit.svg" alt="edit icon" className="w-3.5" />
-          <span>Edit</span>
-        </Button>
+
+        <Modal>
+          <Modal.Open opens={`Edit:${goal.id}`}>
+            <Button
+              type="button"
+              additionalStyles="w-24 py-1.5 flex justify-center items-center gap-1.5"
+              variation="secondary"
+            >
+              <img src="/icons/edit.svg" alt="edit icon" className="w-3.5" />
+              <span>Edit</span>
+            </Button>
+          </Modal.Open>
+          <Modal.Window name={`Edit:${goal.id}`}>
+            <GoalForm
+              title={`Edit ${goal.title}`}
+              goal={goal}
+              goalOperation="edit"
+            />
+          </Modal.Window>
+        </Modal>
       </div>
     </div>
   );

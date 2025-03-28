@@ -22,7 +22,7 @@ function GoalsControls() {
           </Button>
         </Modal.Open>
         <Modal.Window name="addGoal">
-          <GoalForm title="Add Goal" />
+          <GoalForm title="Add Goal" goalOperation="add" />
         </Modal.Window>
       </Modal>
 

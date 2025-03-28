@@ -18,8 +18,8 @@ function HabitForm({ title, onCloseModal, habitOperation, habit }) {
     },
   });
   const { habitsCategories } = useHabitsCategories();
-  const { addHabit, isAdding } = useAddHabit();
-  const { editHabit, isEditing } = useEditHabit();
+  const { addHabit, isLoading: isAdding } = useAddHabit();
+  const { editHabit, isLoading: isEditing } = useEditHabit();
 
   useEffect(() => {
     const timer = setTimeout(() => {

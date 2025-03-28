@@ -23,8 +23,8 @@ function TaskForm({ title, taskOperation, onCloseModal, task }) {
     },
   });
   const { tasksCategories } = useTasksCategories();
-  const { editTask, isEditing } = useEditTask();
-  const { addTask, isAdding } = useAddTask();
+  const { editTask, isLoading: isEditing } = useEditTask();
+  const { addTask, isLoading: isAdding } = useAddTask();
 
   useEffect(() => {
     const timer = setTimeout(() => {
