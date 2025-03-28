@@ -4,10 +4,17 @@ import InputCheckbox from "../../ui/InputCheckbox";
 import Modal from "../../ui/Modal";
 import { calculatePercentage, formatDate } from "../../utils/helper";
 import GoalForm from "./GoalForm";
+import { useCheckGoal } from "./useCheckGoal";
+import { useCheckStep } from "./useCheckStep";
 import { useDeleteGoal } from "./useDeleteGoal";
+import { useState } from "react";
 
 function GoalItem({ goal }) {
   const { deleteGoal, isLoading: isDeleting } = useDeleteGoal();
+  const { checkGoal, isLoading: isCheckingGoal } = useCheckGoal();
+  const { checkStep } = useCheckStep();
+  const [loadingSteps, setLoadingSteps] = useState({});
+
   const stepsCompletedPercentage = calculatePercentage(
     goal.steps.filter((step) => step.checked === true).length,
     goal.steps.length,
@@ -16,7 +23,17 @@ function GoalItem({ goal }) {
   return (
     <div key={goal.id} className="w-96 rounded bg-lightGreen p-6">
       <div className="flex items-center justify-start gap-2 font-semibold">
-        <InputCheckbox label={goal.title} id={goal.id} />
+        <InputCheckbox
+          label={goal.title}
+          id={goal.id}
+          checked={goal.checked}
+          onChange={() => {
+            checkGoal({ ...goal, checked: !goal.checked });
+          }}
+          labelClassName={goal.checked ? "line-through" : ""}
+          isLoading={isCheckingGoal}
+        />
+
         <Badge variation="solid" backgroundColor={goal.category.bgColor}>
           {goal.category.name}
         </Badge>
@@ -52,9 +69,33 @@ function GoalItem({ goal }) {
             {goal.steps.map((step, i) => (
               <li key={step.id}>
                 <InputCheckbox
-                  size="0.875rem "
+                  size="0.875rem"
+                  id={step.id}
                   label={`${i + 1}. ${step.step}`}
                   labelSize="xs"
+                  checked={step.checked}
+                  isLoading={Boolean(loadingSteps[step.id])}
+                  spinnerSize="xs"
+                  labelClassName={step.checked ? "line-through" : ""}
+                  onChange={() => {
+                    setLoadingSteps((prev) => ({ ...prev, [step.id]: true }));
+                    checkStep(
+                      {
+                        ...goal,
+                        steps: goal.steps.map((s) =>
+                          s.id === step.id ? { ...s, checked: !s.checked } : s,
+                        ),
+                      },
+                      {
+                        onSettled: () =>
+                          setLoadingSteps((prev) => {
+                            const newState = { ...prev };
+                            delete newState[step.id];
+                            return newState;
+                          }),
+                      },
+                    );
+                  }}
                 />
               </li>
             ))}
