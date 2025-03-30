@@ -70,7 +70,7 @@ function GoalForm({ title, onCloseModal, goal, goalOperation }) {
       >
         <InputField
           id="title"
-          label="Goal Title"
+          label="Goal Title*"
           placeholder="Enter goal title"
           type="text"
           register={register ? register : false}
