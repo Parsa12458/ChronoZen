@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   tasks: [],
   habits: [],
+  events: [],
 };
 
 const dashboardSlice = createSlice({
@@ -15,9 +16,12 @@ const dashboardSlice = createSlice({
     setHabits(state, action) {
       state.habits = action.payload;
     },
+    setEvents(state, action) {
+      state.events = action.payload;
+    },
   },
 });
 
 export default dashboardSlice.reducer;
 
-export const { setTasks, setHabits } = dashboardSlice.actions;
+export const { setTasks, setHabits, setEvents } = dashboardSlice.actions;

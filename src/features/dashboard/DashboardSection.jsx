@@ -6,6 +6,7 @@ import {
   isToday,
   isTodayChecked as isTodayCheckedFn,
 } from "../../utils/helper";
+import { useCheckEvent } from "../eventManagement/useCheckEvent";
 
 function DashboardSection({ title, data }) {
   // Tasks
@@ -20,24 +21,19 @@ function DashboardSection({ title, data }) {
     (habit) => !isTodayCheckedFn(habit.checkedDates),
   );
 
+  // Events
+  const { events } = useSelector((store) => store.dashboard);
+  const { checkEvent, isLoading: isCheckingEvent } = useCheckEvent();
+  const todayEvents = events?.filter(
+    (event) => (isToday(event.date) || event.date === null) && !event.checked,
+  );
+
   let renderData;
   if (data === "task") renderData = todayTasks;
 
   if (data === "habit") renderData = todayHabits;
 
-  if (data === "event")
-    renderData = [
-      {
-        eventName: "Conference at school",
-        eventTime: "09:30",
-        eventLocation: "School",
-      },
-      {
-        eventName: "Go to dentist",
-        eventTime: "14:30",
-        eventLocation: "Gohardasht",
-      },
-    ];
+  if (data === "event") renderData = todayEvents;
 
   return (
     <div
@@ -58,21 +54,33 @@ function DashboardSection({ title, data }) {
       )}
       {data === "event" && (
         <div
-          className="grid grid-cols-[auto_2fr_1fr_2fr] gap-2 pl-2.5 text-sm"
+          className="grid grid-cols-[auto_1fr_0.6fr_2fr] gap-2 pl-2.5 text-sm"
           role="table"
         >
           <span className="col-span-1"></span>
           <span className="font-bold">Event Name</span>
           <span className="font-bold">Time</span>
           <span className="font-bold">Location</span>
-          {renderData.map((item, i) => (
+          {renderData?.length === 0 && (
+            <span className="col-span-full mt-8 text-center text-xl font-bold capitalize">
+              No {data}s!
+            </span>
+          )}
+          {renderData?.map((item, i) => (
             <React.Fragment key={i}>
               <span className="col-span-1 font-bold">{i + 1}</span>
-              <span>{item.eventName}</span>
-              <span>{item.eventTime}</span>
+              <span>{item.title}</span>
+              <span>{item.time}</span>
               <span className="flex justify-between">
-                {item.eventLocation}
-                <Button variation="small" additionalStyles="self-center">
+                {item.location}
+                <Button
+                  variation="small"
+                  additionalStyles="self-center"
+                  onClick={() =>
+                    checkEvent({ ...item, checked: !item.checked })
+                  }
+                  isLoading={isCheckingEvent}
+                >
                   Done
                 </Button>
               </span>

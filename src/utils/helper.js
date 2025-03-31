@@ -60,7 +60,7 @@ export function isToday(dateToCheck) {
   date.setHours(0, 0, 0, 0);
 
   // Compare the dates
-  return date === today;
+  return date.getTime() === today.getTime();
 }
 
 export function calculateStreak(dateArray) {

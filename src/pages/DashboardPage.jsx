@@ -3,12 +3,17 @@ import DashboardPieChart from "../features/dashboard/DashboardPieChart";
 import Button from "../ui/Button";
 import { useTasks } from "../features/taskManagement/useTasks";
 import { useDispatch } from "react-redux";
-import { setHabits, setTasks } from "../features/dashboard/dashboardSlice";
+import {
+  setEvents,
+  setHabits,
+  setTasks,
+} from "../features/dashboard/dashboardSlice";
 import toast from "react-hot-toast";
 import FullSpinner from "../ui/FullSpinner";
 import { useEffect } from "react";
 import { useHabits } from "../features/habitTracker/useHabits";
 import { isTodayChecked } from "../utils/helper";
+import { useEvents } from "../features/eventManagement/useEvents";
 
 function DashboardPage() {
   // Tasks
@@ -33,6 +38,13 @@ function DashboardPage() {
     (habit) => !isTodayChecked(habit.checkedDates),
   ).length;
 
+  // Events
+  const {
+    events,
+    isLoading: isLoadingEvents,
+    error: eventsError,
+  } = useEvents();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,10 +55,16 @@ function DashboardPage() {
     dispatch(setHabits(habits));
   }, [habits, dispatch]);
 
+  useEffect(() => {
+    dispatch(setEvents(events));
+  }, [events, dispatch]);
+
   if (tasksError) toast.error(tasksError.message);
   if (habitsError) toast.error(habitsError.message);
+  if (eventsError) toast.error(eventsError.message);
 
-  if (isLoadingTasks || isLoadingHabits) return <FullSpinner />;
+  if (isLoadingTasks || isLoadingHabits || isLoadingEvents)
+    return <FullSpinner />;
 
   return (
     <div className="grid grid-cols-3 grid-rows-[max-content_max-content_max-content_max-content] gap-5">
