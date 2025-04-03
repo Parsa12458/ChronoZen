@@ -1,6 +1,5 @@
 import DashboardSection from "../features/dashboard/DashboardSection";
 import DashboardPieChart from "../features/dashboard/DashboardPieChart";
-import Button from "../ui/Button";
 import { useTasks } from "../features/taskManagement/useTasks";
 import { useDispatch } from "react-redux";
 import {
@@ -67,7 +66,7 @@ function DashboardPage() {
     return <FullSpinner />;
 
   return (
-    <div className="grid grid-cols-3 grid-rows-[max-content_max-content_max-content_max-content] gap-5">
+    <div className="grid grid-cols-3 grid-rows-[max-content_max-content_max-content] gap-5">
       <h1 className="col-span-full text-2xl font-bold">Dashboard</h1>
       <DashboardSection title="Tasks for today" data="task" />
       <DashboardSection title="Habits for today" data="habit" />
@@ -100,9 +99,6 @@ function DashboardPage() {
         ]}
         colors={["#6f8779", "#be3636"]}
       />
-      <Button type="primary" additionalStyles="col-start-3 col-end-4 py-3">
-        Get Full Report
-      </Button>
     </div>
   );
 }

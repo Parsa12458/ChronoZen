@@ -12,7 +12,7 @@ function AppHeader() {
   const user = queryClient.getQueryData(["user"]);
 
   return (
-    <div className="col-start-2 col-end-3 flex items-center gap-10 px-12 py-8 font-semibold">
+    <div className="col-start-2 col-end-3 flex items-center gap-8 px-12 py-8 font-semibold">
       <div>
         Good {getTimeOfDay()},{" "}
         <span className="font-bold">
@@ -21,10 +21,6 @@ function AppHeader() {
       </div>
       <div className="ml-auto">{formatDate(new Date(), true)}</div>
       <div className="flex items-center justify-center gap-2">
-        <CircleButton>
-          <img src="/icons/moon-icon.svg" alt="moon icon" className="h-6 w-6" />
-        </CircleButton>
-
         <Dropdown
           button={
             <CircleButton>
