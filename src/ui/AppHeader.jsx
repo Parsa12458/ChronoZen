@@ -33,26 +33,26 @@ function AppHeader() {
           }
           content={
             <React.Fragment>
-              <Modal>
-                <Modal.Open opens="editAccount">
-                  <li
-                    className="rounded transition duration-200 hover:bg-paleGreen"
-                    tabIndex={0}
-                  >
-                    <span>
+              <li
+                className="rounded transition duration-200 hover:bg-paleGreen"
+                tabIndex={0}
+              >
+                <Modal>
+                  <Modal.Open opens="editAccount">
+                    <button>
                       <img
                         src="/icons/user-edit.svg"
                         alt="user edit icon"
                         className="w-5"
                       />
                       <span>Edit</span>
-                    </span>
-                  </li>
-                </Modal.Open>
-                <Modal.Window name="editAccount">
-                  <EditAccountForm />
-                </Modal.Window>
-              </Modal>
+                    </button>
+                  </Modal.Open>
+                  <Modal.Window name="editAccount">
+                    <EditAccountForm />
+                  </Modal.Window>
+                </Modal>
+              </li>
               <li
                 className="rounded transition duration-200 hover:bg-paleGreen"
                 tabIndex={0}

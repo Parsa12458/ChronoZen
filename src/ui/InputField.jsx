@@ -7,6 +7,7 @@ function InputField({
   disabled = false,
   register,
   validationRules = {},
+  autoComplete = "on",
 }) {
   return (
     <div className="flex flex-col text-left">
@@ -23,6 +24,7 @@ function InputField({
         disabled={disabled}
         defaultValue={defaultValue}
         {...(register && register(id, validationRules))}
+        autoComplete={autoComplete}
       />
     </div>
   );
